@@ -1,0 +1,98 @@
+# On branch dev_server_new
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   storage/app/5d4130abc7752/uploads/persyaratan_3.pdf
+#	modified:   storage/app/5d4130abc7752/uploads/persyaratan_7.pdf
+#	modified:   storage/app/5d510f191730a/uploads/persyaratan_5.pdf
+#	modified:   storage/app/5d521c948af42/uploads/persyaratan_5.pdf
+#	modified:   storage/app/template_perizinan/sk_usaha-daya-tarik-wisata-baru.docx
+#	modified:   storage/app/template_perizinan/sk_usaha-daya-tarik-wisata-perpanjang.docx
+#	modified:   storage/app/template_perizinan/sk_usaha-jasa-informasi-pariwisata-baru.docx
+#	modified:   storage/app/template_perizinan/sk_usaha-jasa-informasi-pariwisata-perpanjang.docx
+#	modified:   storage/app/template_perizinan/sk_usaha-jasa-konsultan-pariwisata-baru.docx
+#	modified:   storage/app/template_perizinan/sk_usaha-jasa-konsultan-pariwisata-perpanjang.docx
+#	modified:   storage/app/template_perizinan/sk_usaha-wisata-tirta-perpanjang.docx
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	lock.txt
+#	storage/app/5d1f63f04b4f4/uploads/persyaratan_1.jpeg
+#	storage/app/5d1f63f04b4f4/uploads/persyaratan_7.jpeg
+#	storage/app/5d48f6cb4f1c5/
+#	storage/app/5d48fbb787ad9/
+#	storage/app/5d4900c69edfe/
+#	storage/app/5d49053e4e0d9/
+#	storage/app/5d49094255dcf/
+#	storage/app/5d49096c11b16/
+#	storage/app/5d491a733a35f/
+#	storage/app/5d491ef2e127c/
+#	storage/app/5d4a517d01fba/
+#	storage/app/5d4a51ac60e39/
+#	storage/app/5d4a5a1e25068/
+#	storage/app/5d4ba2df7ccf5/
+#	storage/app/5d4ba3ee2b900/
+#	storage/app/5d4ba7909cd3e/
+#	storage/app/5d4bc40ab90c2/
+#	storage/app/5d4d63d9c4a86/
+#	storage/app/5d5398cee891a/
+#	storage/app/5d53a55dbdb53/
+#	storage/app/5d53ac950b578/
+#	storage/app/5d53ae61a5b1e/
+#	storage/app/5d53aefc6a9a2/
+#	storage/app/5d53b2747001b/
+#	storage/app/5d53b2ac8b2e0/
+#	storage/app/5d53ba0994140/
+#	storage/app/5d53bc8a5fae8/
+#	storage/app/5d53bff26fc05/
+#	storage/app/5d53c59e2012d/
+#	storage/app/5d53c9c465c43/
+#	storage/app/5d53cfa9aaaa5/
+#	storage/app/5d53d52d4771a/
+#	storage/app/5d53dc5da5bc2/
+#	storage/app/5d53e8906275e/
+#	storage/app/pasfoto/ARDIANSAH TAQWINDO_1565774350.jpg
+#	storage/app/pasfoto/CHARINA ANGRAINI_1565777546.jpg
+#	storage/app/pasfoto/DESI MARLINA_1565776563.jpg
+#	storage/app/pasfoto/DWI SUSILAWATI_1565775664.jpg
+#	storage/app/pasfoto/ENDRIYATI_1565777123.jpg
+#	storage/app/pasfoto/HALIMAH SAADAH_1565774766.jpg
+#	storage/app/pasfoto/HENY AGUSVIRA_1565776756.jpg
+#	storage/app/pasfoto/Hasbiallah yusuf_1565765026.jpg
+#	storage/app/pasfoto/INDAH RAHAYU_1565773967.jpg
+#	storage/app/pasfoto/LUKMAN_1565776234.jpg
+#	storage/app/pasfoto/SUSI NOVALIA_1565777233.jpg
+#	storage/app/pasfoto/ULFA USVIKA_1565774912.jpg
+#	storage/app/pasfoto/UMNAYATI_1565774532.jpg
+#	storage/app/pasfoto/VERA ZULFIA_1565777420.jpg
+#	storage/app/pasfoto/YOGIK SURYADI_1565775818.jpg
+#	storage/app/pasfoto/adi verianto_1565776790.jpg
+#	storage/app/pasfoto/fittri_1565775988.jpg
+#	storage/app/pasfoto/hesti aprianti windari_1565769259.jpeg
+#	storage/app/pasfoto/iin rosalina_1565760672.jpg
+#	storage/app/pasfoto/selviana meidriyantie_1565764612.jpeg
+#	storage/app/pasfoto/sri apriyanti_1565770600.jpg
+#	storage/app/pasfoto/susteny_1565762271.jpg
+#	storage/app/template_bukti_pendaftaran/bukti_izin-praktik-dokter-gigi-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-makanan-dan-minuman-baru.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-makanan-dan-minuman-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-perjalanan-wisata-baru.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-perjalanan-wisata-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-pramuwisata-baru.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-pramuwisata-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-transportasi-wisata-baru.docx
+#	storage/app/template_perizinan/sk_usaha-jasa-transportasi-wisata-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-kawasan-pariwisata-baru.docx
+#	storage/app/template_perizinan/sk_usaha-kawasan-pariwisata-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-kegiatan-hiburan-dan-rekreasi-baru.docx
+#	storage/app/template_perizinan/sk_usaha-kegiatan-hiburan-dan-rekreasi-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-penyediaan-akomodasi-baru.docx
+#	storage/app/template_perizinan/sk_usaha-penyediaan-akomodasi-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-penyelenggaraan-pertemuan-perjalanan-insentif-konferensi-dan-pameran-baru.docx
+#	storage/app/template_perizinan/sk_usaha-penyelenggaraan-pertemuan-perjalanan-insentif-konferensi-dan-pameran-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-spa-baru.docx
+#	storage/app/template_perizinan/sk_usaha-spa-perpanjang.docx
+#	storage/app/template_perizinan/sk_usaha-wisata-tirta-baru.docx
+no changes added to commit (use "git add" and/or "git commit -a")

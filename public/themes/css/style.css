@@ -1,0 +1,23 @@
+.modal-fill .modal-content{
+	max-width: 90% !important;
+	overflow: auto;
+	padding:20px;
+}
+
+.modal-fill .modal-header .close{
+    top: -17px !important;
+    right: 86px !important;
+    cursor:pointer;
+    z-index: 999;
+}
+
+.table-dot {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table-dot td {
+    border-bottom: 1px dotted #ddd;
+}

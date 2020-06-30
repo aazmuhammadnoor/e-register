@@ -1,0 +1,97 @@
+.ckeditor .message {
+	padding: 0 0 var(--ck-sample-base-spacing);
+	background: var(--ck-sample-color-green);
+	color: var(--ck-sample-color-white);
+}
+
+.ckeditor .message::after {
+	content: "";
+	z-index: -1;
+	display: block;
+	height: 10em;
+	width: 100%;
+	background: var(--ck-sample-color-green);
+	position: absolute;
+	left: 0;
+}
+
+.ckeditor .message h1 {
+	padding-top: var(--ck-sample-base-spacing);
+	margin: 0 0 1em;
+	font-size: 2.2em;
+}
+
+.ckeditor .message p {
+	font-size: 1.1em;
+	line-height: 1.6em;
+}
+
+.ckeditor .message p a {
+	color: var(--ck-sample-color-white);
+}
+
+.ckeditor #editor {
+	background: var(--ck-sample-color-white);
+	box-shadow: 2px 2px 2px rgba(0,0,0,.1);
+	border: 1px solid #DFE4E6;			
+	border-bottom-color: #cdd0d2;
+	border-right-color: #cdd0d2;
+}
+
+.ckeditor .ck.ck-editor {
+	box-shadow: 2px 2px 2px rgba(0,0,0,.1);
+}
+
+.ckeditor .ck.ck-content {
+	font-size: 1em;
+	line-height: 1.6em;
+	margin-bottom: 0.8em;
+	min-height: 200px;
+	padding: 1.5em 2em;
+}
+
+.ckeditor #references {
+	margin: 4em 0 var(--ck-sample-base-spacing);
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax(320px, 1fr) );
+	grid-gap: var(--ck-sample-base-spacing);
+}
+
+.ckeditor #references > section {
+	background: var(--ck-sample-color-white);
+	border-radius: 2px;
+	border: 1px solid #DFE4E6;			
+	padding: var(--ck-sample-base-spacing);
+	line-height: 1.8em;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+}
+
+.ckeditor #references > section h2 {
+	margin: .5em 0;
+}
+
+.ckeditor #references > section p:first-of-type {
+	flex: 1 0 auto;
+}
+
+.ckeditor #references > section p:last-child {
+	margin: calc(.25*var(--ck-sample-base-spacing)) 0 0;
+}
+
+.ckeditor #references > section p:last-child a {
+	background: #38A5EE;
+	border-radius: 5px;
+	padding: .4em 1em;
+	color: var(--ck-sample-color-white);
+	text-decoration: none;
+	font-weight: bold;
+	display: block;
+	text-align: center;
+}
+
+.ckeditor #references > section p:last-child a:hover {
+	background: #218cd4;
+}

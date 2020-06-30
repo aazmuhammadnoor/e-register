@@ -1,0 +1,134 @@
+@media (max-width: 767px) {
+  .hidden-sm-down {
+    display: none !important;
+  }
+  .header-info{
+    text-align: center;
+  }
+
+  .header-info img{
+    width: 80px;
+    height: 100px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+#public-page{
+    padding-top:60px;
+}
+#public-page,#app-topbar{
+    max-width:980px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#home-header{
+    margin-bottom: 0px;
+}
+
+#home-main-content{
+    padding:0px;
+    background: #fff;
+}
+
+#content-home-custom{
+    background: #fff;
+}
+
+.tab-content{
+    padding-left:60px;
+    padding-right:60px;
+}
+
+table#tabel-kecil{
+    border-collapse:collapse;border-spacing:0;border-color:#ccc;
+    width: 100%;
+}
+
+table#tabel-kecil td{font-family:Arial, sans-serif;font-size:11px;padding:4px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+table#tabel-kecil th{font-family:Arial, sans-serif;font-size:11px;font-weight:normal;padding:4px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+
+.runtext-container {
+    padding: 0 15px;
+    -webkit-transition: margin-left 0.3s ease;
+    transition: margin-left 0.3s ease;
+    background-color: #E5E5E5;
+    -webkit-box-shadow: 4px 0 5px rgba(0,0,0,0.08);
+    box-shadow: 4px 0 5px rgba(0,0,0,0.08);
+}
+
+.main-runtext {margin: 0 auto;
+    overflow: visible;
+    position: relative;
+    height: 40px;
+}
+marquee {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.runtext-container div.icon{
+    background: #0B5693;
+}
+
+.runtext-container div.icon i{
+    font-size: 24px;
+    display: block;
+    padding-top: 10px;
+    font-weight: bolder;
+    color: #fff;
+}
+@media (min-width: 780px){
+    .header-info img{
+        height:120px;
+        width:auto;float:left;
+        margin-right:20px;
+    }
+}
+
+
+p.callcenter{
+    font-size: 28px;
+}
+
+.modal-open .topbar {
+    right: 17px;
+}
+
+.table-dot {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table-dot td {
+    border-bottom: 1px dotted #ddd;
+}
+
+.dropify-wrapper {
+    width: 472px;
+    height: 709px;
+}
+
+.uppercase label {
+    text-transform: uppercase;   
+}
+
+.uppercase input {
+    text-transform: uppercase;   
+}
+
+.uppercase textarea {
+    text-transform: uppercase;   
+    width: 100%;
+}
+
+.uppercase td, .uppercase th {
+    text-transform: uppercase;   
+}
+
+.gelar {
+    text-transform: none !important;    
+}

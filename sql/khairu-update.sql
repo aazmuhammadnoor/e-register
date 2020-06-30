@@ -1,0 +1,61 @@
+CREATE TABLE `t_retribusi_imb` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `kode_retribusi_imb` varchar(25) DEFAULT NULL,
+  `retribusi_imb` varchar(25) DEFAULT NULL,
+  `kode_papan_proyek` varchar(25) DEFAULT NULL,
+  `papan_proyek` varchar(25) DEFAULT NULL,
+  `kode_plat_imb` varchar(25) DEFAULT NULL,
+  `plat_imb` varchar(25) DEFAULT NULL,
+  `kode_denda_imb` varchar(25) DEFAULT NULL,
+  `denda_imb` varchar(25) DEFAULT NULL,
+  `total` varchar(25) DEFAULT NULL,
+  `lebih_bayar` varchar(25) DEFAULT NULL,
+  `tgl_bayar` date DEFAULT NULL,
+  `id_permohonan` int(11) DEFAULT NULL,
+  `no_spm` varchar(35) DEFAULT NULL,
+  `no_skrd` varchar(35) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `t_retribusi_krk` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_permohonan` int(11) DEFAULT NULL,
+  `kode_biaya_ukur` varchar(25) DEFAULT NULL,
+  `biaya_ukur` varchar(25) DEFAULT NULL,
+  `kode_blanko_krk` varchar(25) DEFAULT NULL,
+  `blanko_krk` varchar(25) DEFAULT NULL,
+  `kode_peta_krk` varchar(25) DEFAULT NULL,
+  `peta_krk` varchar(25) DEFAULT NULL,
+  `kode_denda_krk` varchar(25) DEFAULT NULL,
+  `denda_krk` varchar(25) DEFAULT NULL,
+  `alasan_perubahan` text DEFAULT NULL,
+  `total` varchar(25) DEFAULT NULL,
+  `lebih_bayar` varchar(25) DEFAULT NULL,
+  `tgl_bayar` date DEFAULT NULL,
+  `no_spm` varchar(35) DEFAULT NULL,
+  `no_skrd` varchar(35) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `t_retribusi_trayek` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_permohonan` int(11) DEFAULT NULL,
+  `kode_retribusi_trayek` varchar(25) DEFAULT NULL,
+  `retribusi_trayek` varchar(25) DEFAULT NULL,
+  `kode_kartu_pengawasan_trayek` varchar(25) DEFAULT NULL,
+  `kartu_pengawasan_trayek` varchar(25) DEFAULT NULL,
+  `kode_denda_trayek` varchar(25) DEFAULT NULL,
+  `denda_trayek` varchar(25) DEFAULT NULL,
+  `total` varchar(25) DEFAULT NULL,
+  `lebih_bayar` varchar(25) DEFAULT NULL,
+  `tgl_bayar` date DEFAULT NULL,
+  `no_spm` varchar(35) DEFAULT NULL,
+  `no_skrd` varchar(35) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
