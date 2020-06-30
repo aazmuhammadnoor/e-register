@@ -495,6 +495,9 @@
                                                                 <button class="btn btn-success btn-sm mx-1" data-provide="tooltip" data-original-title="Simpan" data-id="${xhr.id}" id="save-form-step">
                                                                     <i class="icon ti-trash"></i> Simpan
                                                                 </button>
+                                                                <button class="btn btn-secondary btn-sm mx-1" data-provide="tooltip" data-original-title="Reset" id="reset-form-step" data-id="${xhr.id}">
+                                                                    <i class="icon ti-reload"></i> Reset
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -547,6 +550,16 @@
                     }
                  }
             })
+        })
+
+        /**
+         * reset form step
+         */
+        $(document).on('click','#reset-form-step',function(e)
+        {
+            let id = $(this).data('id');
+
+            loadFieldStep(id);
         })
     </script>
 @endsection
