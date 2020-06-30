@@ -129,7 +129,6 @@
                                 </div>
                             </div>
                             <div class="col-9" id="fields-step">
-                                
                             </div>
                         </div>
     				</div>
@@ -296,6 +295,21 @@
          }
 
          /**
+          * loading right content
+          */
+         function loadingContent()
+         {
+            let loading = `<div class="sk-wave">
+                                <div class="sk-rect sk-rect1"></div>
+                                <div class="sk-rect sk-rect2"></div>
+                                <div class="sk-rect sk-rect3"></div>
+                                <div class="sk-rect sk-rect4"></div>
+                                <div class="sk-rect sk-rect5"></div>
+                            </div>`;
+            return loading;
+         }
+
+         /**
           * load step lists
           */
           function loadStepLists()
@@ -454,7 +468,7 @@
                 },
                 beforeSend : function(e)
                 {
-
+                    $('#fields-step').html(loadingContent());
                 },
                 success : function(xhr)
                 {
