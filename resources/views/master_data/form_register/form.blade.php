@@ -54,9 +54,19 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Background</label>
+                            <div class="col-sm-4">
+                                {{ Form::file('background') }}
+                                @if($form_register->background)
+                                    <br>
+                                    <a href="{{ url('/').\Storage::url($form_register->background) }}"><i class="icon ti-download"></i> Download</a>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Info Tambahan</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" id="editor1">{!! $form_register->info !!}</textarea>
+                                <textarea class="form-control" id="editor1" name="info">{!! $form_register->info !!}</textarea>
                             </div>
                         </div>
     				</div>

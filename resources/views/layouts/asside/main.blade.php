@@ -2,7 +2,7 @@
 	<header class="sidebar-header bg-primary">
 		<span class="logo">
 			<a href="{{ url('/home') }}">
-				<img src="{{asset('uploads/'.$identitas->logo_backend.'') }}" alt="..."/>
+				<img src="{{asset('uploads/'.$identitas->logo_backend.'') }}" alt="..." height="50px" />
 			</a>
 		</span>
 	</header>

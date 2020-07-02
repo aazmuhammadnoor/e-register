@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Models\Provinsi;
+use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
+
 use App\Models\Padukuhan;
 use App\Models\Pengumuman;
 use App\Models\JenisPermohonanIzin;
 use App\Models\KategoriProfil;
+
+use App\Models\FormRegister;
+use App\Models\FormStep;
+
 use Mail;
 use Illuminate\Support\Facades\Crypt;
 
@@ -55,53 +63,6 @@ class AjaxController extends Controller
     	echo $rs;
 	}
 
-    function AjaxSeksiIzin($bid, $auto=false)
-    {
-    	$seksiIzin = \App\Models\SeksiIzin::whereHas('bidangIzin', function($q) use ($bid) {
-    		$q->where('id', $bid);
-    	})->get();
-
-    	$rs = "";
-    	if ($seksiIzin) {
-			$rs .= "<option value=''>Pilih Seksi Izin</option>";
-    		foreach($seksiIzin as $pd)
-    		{
-    			$rs .= "<option value='".$pd->id."'>".$pd->nama."</option>";
-    		}
-    	}
-
-    	echo $rs;
-	}
-
-	function PeriksaNIK(Request $r)
-	{
-		$nik = $r->nik;
-		$cek = \App\Models\Pemohon::where('nik', $nik)->first();
-		if($cek){
-			return response()->json([
-				'result'=>true,
-				'nik'=>$cek->nik,
-				'nama_pemohon'=>$cek->nama_pemohon,
-				'no_telepon'=>preg_replace('/[^0-9]/','',$cek->no_telepon),
-				'alamat'=>$cek->alamat
-			]);
-		}else{
-
-			return response()->json([
-				'result'=>false,
-				'data'=>false,
-				'msg'=>'Aplikasi belum terhubung ke Dinas Kependudukan, silahkan masukan data pemohon secara manual'
-			]);
-		}
-	}
-
-	function CekSertifikat(Request $r)
-	{
-		$id_permohonan = ($r->has('id_permohonan')) ? $r->id_permohonan : null;
-		$list = app('App\Http\Controllers\Proses\Sertifikat')->ListSertifikatPemohon($r->nik, $id_permohonan);
-		return response($list);
-	}
-
 	function creategeoJsonAjax($mode, $id)
 	{
 		if($mode == 'kecamatan'){
@@ -119,66 +80,6 @@ class AjaxController extends Controller
 		}
 
 		echo $assets;
-	}
-
-	function Kbli()
-	{
-		return view('page.klasifikasiusaha.cari');
-	}
-
-	function KbliCari(Request $r)
-	{
-		if($r->has('nama_kbli')){
-			if(strlen($r->nama_kbli) < 4){
-				dd('Minimal kata pencarian nama kabli 4 karaketer');
-			}else{
-				$kbli = \App\Models\Kbli::where('deskripsi','like','%' . $r->nama_kbli . '%')
-					->where('kelompok','<>','')
-					->get();
-				return view('page.klasifikasiusaha.viewkbli', compact('kbli'));
-			}
-		}
-
-		if($r->has('kode_kbli')){
-			if(strlen($r->kode_kbli) < 4){
-				dd('Minimal kode kbli 4 karaketer');
-			}else{
-				$kbli = \App\Models\Kbli::where('deskripsi','like','%' . $r->nama_kbli . '%')
-				->where('kelompok','<>','')
-				->get();
-				return view('page.klasifikasiusaha.viewkbli', compact('kbli'));
-			}
-		}
-	}
-
-	function Pengumuman(Pengumuman $id){
-		return view('publik.pengumuman.view',compact('id'));
-	}
-
-	function SyaratPerizinan(JenisPermohonanIzin $id){
-		return view('anggota.permohonan.view_syarat',compact('id'));
-	}
-
-	public function izinByKategori(Request $r)
-	{
-		$izin = JenisPermohonanIzin::query()
-							->select("m_jenis_permohonan_izin.*")
-							->join('m_jenis_izin', 'm_jenis_permohonan_izin.jenis_izin_id', '=', 'm_jenis_izin.id');
-
-		if($r->has('profile')){
-			if($r->profile != null && $r->profile != ''){
-				$izin = $izin->where("m_jenis_izin.kategori_profil_id",$r->profile);
-			}
-		}
-
-		if($r->has('dinas')){
-			if($r->dinas != null && $r->dinas != ''){
-				$izin = $izin->where("m_jenis_izin.kategori_dinas_id",$r->dinas);
-			}
-		}
-
-		return response()->json($izin->get());
-
 	}
 
 
@@ -227,5 +128,228 @@ class AjaxController extends Controller
            }
         });
 	}
+
+	/**
+	 * @method registerInfo
+	 * @param $r Request
+	 * @return JSON
+	 */
+	public function registerInfo(Request $r)
+	{
+		$this->validate($r,[
+			'url' => 'required'
+		]);
+
+		$form_register = FormRegister::where('url',$r->url)
+									->where('is_active',1)
+									->first();
+
+		if(!$form_register)
+		{
+			$response = [
+				'status' => 'error'
+			];
+			return response()->json($response);
+		}
+
+		$form_step  = FormStep::where('form_register',$form_register->id)->get();
+
+		$files = [];
+		foreach($form_step as $key => $row)
+		{
+			if($row->metadata)
+			{
+				$metadata = json_decode($row->metadata);
+				foreach($metadata as $value){
+					if($value->type == 'file')
+					{
+						array_push($files, $value->field_name);
+					}
+				}
+			}
+		}
+
+		$response = [
+			'status' => 'success',
+			'url' => $form_register->url,
+			'title' => $form_register->form_name,
+			'info' => $form_register->info,
+			'files' => $files
+		];
+		return response()->json($response);
+
+	}
+
+	/**
+	 * @method getProvinsi
+	 * @return JSON
+	 */
+	public function getProvinsi()
+	{
+		$provinsi = Provinsi::get();
+		return response()->json($provinsi);
+	}
+
+	/**
+	 * @method getKabupaten
+	 * @param $r Request
+	 * @return JSON
+	 */
+	public function getKabupaten(Request $r)
+	{
+		$data = [
+    		'provinsi'
+    	];
+    	if(!requireData($data,$r))
+    	{
+    		$response = [
+    			'status' => 'error',
+    			'message' => 'paramater kurang!'
+    		];
+    		return response()->json($response);
+    	}
+		$provinsi = Provinsi::where('kode_prov',$r->provinsi)->first();
+		$kabupaten = Kabupaten::where('provinsi',$provinsi->id)
+							->get();
+		return response()->json($kabupaten);
+	}
+
+	/**
+	 * @method getKecamatan
+	 * @param $r Request
+	 * @return JSON
+	 */
+	public function getKecamatan(Request $r)
+	{
+		$data = [
+    		'kabupaten'
+    	];
+    	if(!requireData($data,$r))
+    	{
+    		$response = [
+    			'status' => 'error',
+    			'message' => 'paramater kurang!'
+    		];
+    		return response()->json($response);
+    	}
+		$kabupaten = Kabupaten::where('kode_kab',$r->kabupaten)->first();
+		$kecamatan = Kecamatan::where('kabupaten',$kabupaten->id)
+							->get();
+		return response()->json($kecamatan);
+	}
+
+	/**
+	 * @method getKelurahan
+	 * @param $r Request
+	 * @return JSON
+	 */
+	public function getKelurahan(Request $r)
+	{
+		$data = [
+    		'kecamatan'
+    	];
+    	if(!requireData($data,$r))
+    	{
+    		$response = [
+    			'status' => 'error',
+    			'message' => 'paramater kurang!'
+    		];
+    		return response()->json($response);
+    	}
+		$kecamatan = Kecamatan::where('kode_kec',$r->kecamatan)->first();
+		$kelurahan = Kelurahan::where('kecamatan',$kecamatan->id)
+							->get();
+		return response()->json($kelurahan);
+	}
+
+	/**
+	 * @method thisProvinsi
+	 * @param $r Request
+	 * @return JSON
+	 */
+	public function thisProvinsi(Request $r)
+	{
+		$data = [
+    		'kelurahan'
+    	];
+    	if(!requireData($data,$r))
+    	{
+    		$response = [
+    			'status' => 'error',
+    			'message' => 'paramater kurang!'
+    		];
+    		return response()->json($response);
+    	}
+		$kelurahan = Kelurahan::where('kelurahan',$r->kelurahan)->first();
+		$provinsi = $kelurahan->thisKecamatan->thisKabupaten->provinsi;
+		return response()->json($provinsi);
+	}
+
+	/**
+	 * @method getAddressByName
+	 */
+	/**
+     * @method getAddressByName
+     * @param $r
+     * @return JSON
+     */
+    public function getAddressByName(Request $r)
+    {
+    	$data = [
+    		'name'
+    	];
+    	if(!requireData($data,$r))
+    	{
+    		$response = [
+    			'status' => 'error',
+    			'message' => 'paramater kurang!'
+    		];
+    		return response()->json($response);
+    	}
+
+    	$address = Provinsi::query()
+    					->join('kabupaten','kabupaten.provinsi','=','provinsi.id')
+    					->join('kecamatan','kecamatan.kabupaten','=','kabupaten.id')
+    					->join('kelurahan','kelurahan.kecamatan','=','kecamatan.id')
+    					->select(
+    						'provinsi.kode_prov as kode_provinsi',
+    						'kabupaten.kode_kab as kode_kabupaten',
+    						'kecamatan.kode_kec as kode_kecamatan',
+    						'kelurahan.kode_kel as kode_kelurahan',
+    						'provinsi.name as provinsi',
+    						'kabupaten.name as kabupaten',
+    						'kecamatan.name as kecamatan',
+    						'kelurahan.name as kelurahan'
+    					);
+    					
+    	$word = $r->name;
+    	$word = str_replace(',', ' ', $word);
+    	$word = str_replace('.', ' ', $word);
+    	$word = str_replace('|', ' ', $word);
+    	$word = str_replace('-', ' ', $word);
+    	$word = explode(' ', $word);
+    	foreach ($word as $key => $value) {
+    		if($value != ' ' || $value != '' || $value != null)
+    		{
+    			$address->where(function($q) use($value)
+    					{
+    						return $q->where('provinsi.name','like','%'.$value.'%')
+    							->orWhere('kabupaten.name','like','%'.$value.'%')
+    							->orWhere('kecamatan.name','like','%'.$value.'%')
+    							->orWhere('kelurahan.name','like','%'.$value.'%');
+    					});
+    		}
+    	}
+    					
+
+    	$address = $address->get();
+
+    	$response = [
+			'status' => 'success',
+			'data' => $address
+		];
+		return response()->json($response);
+
+    }
 
 }

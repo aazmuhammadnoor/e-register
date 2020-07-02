@@ -15,6 +15,26 @@ Route::get('/test/{email}','Testingemail@Tes');
 Auth::routes();
 
 Route::get('/', 'PublicController@index')->name('home');
+Route::post('register-info', 'AjaxController@registerInfo')->name('register.info');
+Route::get('register/{url}', 'Frontend\RegisterController@index')->name('register');
+Route::get('register/{url}/info', 'Frontend\Controller@info')->name('register.info');
+
+Route::post('ajax/provinsi', 'AjaxController@getProvinsi')->name('provinsi');
+Route::post('ajax/kabupaten', 'AjaxController@getKabupaten')->name('kabupaten');
+Route::post('ajax/kelurahan', 'AjaxController@getkelurahan')->name('kelurahan');
+Route::post('ajax/kecamatan', 'AjaxController@getkecamatan')->name('kecamatan');
+Route::post('ajax/this-provinsi', 'AjaxController@thisProvinsi')->name('this.provinsi');
+Route::post('/get-address-by-name', 'AjaxController@getAddressByName')->name('get.address.by.name');
+Route::post('form-step/{formStep}/detail','Frontend\FormStepController@detail')->name('form.step.detail');
+
+Route::post('file/{url}/{form_step}/upload','Frontend\TempRegisterController@uploadFile')->name('file.upload');
+Route::post('file/{url}/{form_step}/remove','Frontend\TempRegisterController@removeFile')->name('file.remove');
+
+Route::get('/upload', function () {
+    return view('upload');
+});
+
+
 
 Route::get('storage/{filename}', function ($filename)
 {

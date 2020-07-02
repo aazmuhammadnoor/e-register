@@ -20,6 +20,11 @@ class Provinsi extends Model
     	return $this->hasMany('App\Models\Kabupaten','provinsi','id');
     }
 
+    function hasKabupaten()
+    {
+        return $this->hasMany('App\Models\Kabupaten','provinsi','id');
+    }
+
     public static function detailProvinsi($id){
     	return Provinsi::where("id",$id)->first();
     }

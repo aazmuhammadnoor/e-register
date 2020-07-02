@@ -1157,3 +1157,22 @@ if(!function_exists('notif_member'))
         return $notif;
     }
 }
+
+if(!function_exists("requireData")){
+        function requireData($variable,$r)
+        {
+            $status = true;
+            foreach ($variable as $value) {
+                if(!$r->has($value))
+                {
+                    $status = false;
+                }else{
+                    if($r->{$value} == null && $r->{$value} == '')
+                    {
+                        $status = false;
+                    }
+                }
+            }
+            return $status;
+        }
+    }

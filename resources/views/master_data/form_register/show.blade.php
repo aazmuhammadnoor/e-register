@@ -77,7 +77,7 @@
             background-color: #999999 !important;
         }
         .badge{
-            font-size: 12px;
+            font-size: 10px;
         }
     </style>
 @endsection
@@ -87,6 +87,7 @@
     <div class="main-content">
         <ol class="breadcrumb breadcrumb-arrow">
             <li class="breadcrumb-item"><a href="{{ url('home') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.form.register') }}">Semua Form</a></li>
             <li class="breadcrumb-item"><a href="{{ route('admin.form.register') }}">{{ $title }}</a></li>
             <li class="breadcrumb-item active">Show</li>
         </ol>
@@ -95,12 +96,12 @@
     			<div class="card">
     				<div class="card-title d-flex flex-row justify-content-between align-items-center">
                         <h4>
+                            {{ $title }} 
                             @if($form_register->is_active == 1)
                                 <label class="badge badge-primary bagde-sm" id="status_form">Sedang Publish</label>
                             @else
                                 <label class="badge badge-danger bagde-sm" id="status_form">Tidak Publish</label>
                             @endif
-                            {{ $title }} 
                         </h4>     
                         <div>
                             @if($form_register->is_active == 1)
@@ -310,6 +311,15 @@
          }
 
          /**
+          * loading right content
+          */
+         function errorContent()
+         {
+            let error = `<i class="text-center">Error</i>`;
+            return error;
+         }
+
+         /**
           * load step lists
           */
           function loadStepLists()
@@ -464,7 +474,7 @@
                 },
                 error : function(e)
                 {
-
+                    $('#fields-step').html(errorContent());
                 },
                 beforeSend : function(e)
                 {
@@ -485,7 +495,7 @@
                                                                 <span id="success-submit-step" style="display:none">
                                                                     <i class="fa fa-check text-success"></i>
                                                                 </span>
-                                                                <div class="sk-wave mx-0" id="loading-edit-step" style="display:none">
+                                                                <div class="sk-wave mx-0" id="loading-edit-form-step" style="display:none">
                                                                     <div class="sk-rect sk-rect1"></div>
                                                                     <div class="sk-rect sk-rect2"></div>
                                                                     <div class="sk-rect sk-rect3"></div>
@@ -536,13 +546,13 @@
                  beforeSend : function(e)
                  {
                     $('#success-submit-step').hide();
-                    $('#loading-edit-step').show();
+                    $('#loading-edit-form-step').show();
                     $('#save-form-step').hide();
                  },
                  success : function(xhr)
                  {
                     $('#success-submit-step').show();
-                    $('#loading-edit-step').hide();
+                    $('#loading-edit-form-step').hide();
                     $('#save-form-step').show();
                     if(xhr.status == 'success')
                     {

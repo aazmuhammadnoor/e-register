@@ -20,6 +20,11 @@ class Kelurahan extends Model
     	return $this->hasOne('App\Models\Kecamatan','id','kecamatan');
     }
 
+    function thisKecamatan()
+    {
+        return $this->belongsTo('App\Models\Kecamatan','kecamatan','id');
+    }
+
     public static function detailKelurahan($id){
     	return Kelurahan::where("id",$id)->first();
     }

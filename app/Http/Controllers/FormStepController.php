@@ -64,7 +64,7 @@ class FormStepController extends Controller
     public function editStep(Request $r, FormRegister $formRegister){
         $this->validate($r, [
     		'id'=>'required',
-    		'step_name'=>'required|unique:form_step,step_name'
+    		'step_name'=>'required|unique:form_step,step_name,'.$r->id
     	]);
 
     	/*validating form register and form step by id form register*/
@@ -154,9 +154,10 @@ class FormStepController extends Controller
 		foreach($r->field_name as $key => $row)
 		{
 			$field = [
-				'field_name' => (!$r->field_name[$key]) ? '' : $r->field_name[$key],
+				'field_name' => (!$r->field_name[$key]) ? '' : str_slug($r->field_name[$key]),
+                'label' => (!$r->field_name[$key]) ? '' : $r->field_name[$key],
 				'type' => (!$r->type[$key]) ? '' : $r->type[$key],
-				'length' => (!$r->length[$key]) ? '' : $r->length[$key],
+				'column_length' => (!$r->column_length[$key]) ? '' : $r->column_length[$key],
 				'options' => (!$r->options[$key]) ? '' : $r->options[$key],
 				'required' => (!$r->required[$key]) ? '' : $r->required[$key]
 			];

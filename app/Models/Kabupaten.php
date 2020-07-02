@@ -20,6 +20,16 @@ class Kabupaten extends Model
     	return $this->hasOne('App\Models\Provinsi','id','provinsi');
     }
 
+    function thisProvinsi()
+    {
+        return $this->belongsTo('App\Models\Provinsi','provinsi','id');
+    }
+
+    function hasKecamatan()
+    {
+        return $this->hasMany('App\Models\Kecamatan','kabupaten','id');
+    }
+
     public static function detailKabupaten($id){
     	return Kabupaten::where("id",$id)->first();
     }

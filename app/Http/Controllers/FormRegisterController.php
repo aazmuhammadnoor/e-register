@@ -50,7 +50,7 @@ class FormRegisterController extends Controller
      */
     protected function randomString()
     {
-        $characters = 'abcdefghijklmnopqrstuvwxyz';
+        $characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
         $charactersLength = strlen($characters);
         $randomString = '';
         $length = 6;
@@ -89,27 +89,33 @@ class FormRegisterController extends Controller
     {
         $this->validate($r, [
             'form_name'=>'required',
-            'color'=>'required'
+            'color'=>'required',
         ]);
 
         $form_register = new FormRegister;
 
         $form_register->form_name = $r->form_name;
         $form_register->color = $r->color;
+        $form_register->info = $r->info;
         $form_register->url = $this->url();
         $form_register->is_active = 0;
 
         if($r->hasFile('template_register')){
-            /*Storage::delete($ext_file);*/
             $template = $r->file('template_register');
             $filename = $template->storeAs('template_register',str_slug($r->form_name).".docx");
             $form_register->template_register = $filename;
         }
 
+        if($r->hasFile('background')){
+            $background = $r->file('background');
+            $filename = Storage::putFile('public/background',$background);
+            $form_register->background = $filename;
+        }
+
         $form_register->save();
 
         flash('Form Register Berhasil disimpan')->success();
-        return redirect()->route('admin.form.register');
+        return redirect()->route('admin.form.register.show',[$form_register->id]);
     }
 
     /**
@@ -138,6 +144,7 @@ class FormRegisterController extends Controller
 
         $form_register->form_name = $r->form_name;
         $form_register->color = $r->color;
+        $form_register->info = $r->info;
         if($r->hasFile('template_register')){
             if(file_exists(storage::path($form_register->template_register)))
             {
@@ -146,6 +153,16 @@ class FormRegisterController extends Controller
             $template = $r->file('template_register');
             $filename = $template->storeAs('template_register',str_slug($r->form_name).".docx");
             $form_register->template_register = $filename;
+        }
+
+        if($r->hasFile('background')){
+            if(file_exists(storage::path($form_register->background)))
+            {
+                Storage::delete($form_register->background);
+            }
+            $background = $r->file('background');
+            $filename = Storage::putFile('public/background',$background);
+            $form_register->background = $filename;
         }
 
         $form_register->save();
@@ -172,7 +189,7 @@ class FormRegisterController extends Controller
     public function show(FormRegister $data){
         $form_register = $data;
 
-        $title = 'Register - '.$data->form_name;
+        $title = $data->form_name;
         $active = $this->active;
         return view('master_data.form_register.show',compact('title','form_register','active'));
     }

@@ -20,6 +20,16 @@ class Kecamatan extends Model
     	return $this->hasMany('App\Models\Kelurahan','kecamatan','id');
     }
 
+    function thisKabupaten()
+    {
+        return $this->belongsTo('App\Models\Kabupaten','kabupaten','id');
+    }
+
+    function hasKelurahan()
+    {
+        return $this->hasMany('App\Models\Kelurahan','kelurahan','id');
+    }
+
     public static function detailKecamatan($id){
     	return Kecamatan::where("id",$id)->first();
     }

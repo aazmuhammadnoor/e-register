@@ -22,7 +22,7 @@ class PublicController extends Controller
     	}
     	
         $title = "Beranda";
-        return view('welcome',compact('title'));
+        return view('public',compact('title'));
     }
 
 }
