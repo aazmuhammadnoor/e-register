@@ -15,23 +15,33 @@ Route::get('/test/{email}','Testingemail@Tes');
 Auth::routes();
 
 Route::get('/', 'PublicController@index')->name('home');
+Route::get('/register', function () {
+    abort('404');
+});
 Route::post('register-info', 'AjaxController@registerInfo')->name('register.info');
 Route::get('register/{url}', 'Frontend\RegisterController@index')->name('register');
-Route::get('register/{url}/info', 'Frontend\Controller@info')->name('register.info');
+Route::get('register/{url}/info', 'Frontend\RegisterController@info')->name('register.info');
+Route::get('register/{url}/download-bukti','Frontend\RegisterController@downloadBukti')->name('register.download.bukti');
+Route::get('register/{url}/my-register', 'Frontend\MyRegisterController@info')->name('my.register');
 
 Route::post('ajax/provinsi', 'AjaxController@getProvinsi')->name('provinsi');
 Route::post('ajax/kabupaten', 'AjaxController@getKabupaten')->name('kabupaten');
 Route::post('ajax/kelurahan', 'AjaxController@getkelurahan')->name('kelurahan');
 Route::post('ajax/kecamatan', 'AjaxController@getkecamatan')->name('kecamatan');
+Route::post('ajax/location/{kelurahan}', 'AjaxController@getLocation')->name('location');
 Route::post('ajax/this-provinsi', 'AjaxController@thisProvinsi')->name('this.provinsi');
 Route::post('/get-address-by-name', 'AjaxController@getAddressByName')->name('get.address.by.name');
 Route::post('form-step/{formStep}/detail','Frontend\FormStepController@detail')->name('form.step.detail');
-
 Route::post('file/{url}/{form_step}/upload','Frontend\TempRegisterController@uploadFile')->name('file.upload');
 Route::post('file/{url}/{form_step}/remove','Frontend\TempRegisterController@removeFile')->name('file.remove');
+Route::post('file/{url}/{form_step}/check','Frontend\TempRegisterController@checkFile')->name('file.check');
+Route::post('register/{url}/{form_step}/submit','Frontend\TempRegisterController@submit')->name('register.submit');
+Route::post('register/{url}/{form_step}/step-info','Frontend\TempRegisterController@stepInfo')->name('register.step.info');
+Route::post('register/{url}/review','Frontend\TempRegisterController@review')->name('register.review');
+Route::post('register/{url}/final','Frontend\RegisterController@submit')->name('register.final');
 
-Route::get('/upload', function () {
-    return view('upload');
+Route::get('/email', function () {
+    return view('email');
 });
 
 
@@ -306,15 +316,23 @@ Route::group([ 'prefix' => 'admin'], function(){
 
     Route::get('form-register/{data}/up','FormRegisterController@up')->name('admin.form.register.up');
     Route::get('form-register/{data}/down','FormRegisterController@down')->name('admin.form.register.down');
-
     Route::get('form-register/{data}/show','FormRegisterController@show')->name('admin.form.register.show');
+    Route::get('form-register/{url}/preview','FormRegisterController@preview')->name('admin.form.register.preview');
 
     Route::post('form-register/{formRegister}/add-step','FormStepController@addStep')->name('admin.form.register.add.step');
     Route::post('form-register/{formRegister}/edit-step','FormStepController@editStep')->name('admin.form.register.edit.step');
     Route::post('form-register/{formRegister}/lists-step','FormStepController@listsStep')->name('admin.form.register.lists.step');
+    Route::post('form-register/{formRegister}/variables','FormRegisterController@variables')->name('admin.form.register.variables');
+
     Route::post('form-step/{formStep}/detail','FormStepController@detail')->name('admin.form.step.detail');
     Route::post('form-step/{formStep}/delete','FormStepController@delete')->name('admin.form.step.delete');
     Route::post('form-step/{formStep}/update-meta','FormStepController@updateMeta')->name('admin.form.step.update.meta');
+    Route::post('form-step/{formStep}/order','FormStepController@orderStep')->name('admin.form.step.order');
+
+    Route::get('registrasi','RegisterController@index')->name('admin.register');
+    Route::get('registrasi/{register}/detail','RegisterController@detail')->name('admin.register.detail');
+    Route::post('registrasi/{form_register}/lists','RegisterController@lists')->name('admin.register.lists');
+
 
 });
 

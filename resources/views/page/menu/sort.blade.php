@@ -44,7 +44,7 @@
             id = $(this).data('id')
             order = $(this).val();
             $.ajax({
-                url : '{{ url('config/menu/sort') }}',
+                url : '{{ url('admin/config/menu/sort') }}',
                 type : 'post',
                 data : {_token : '{{ csrf_token() }}', id : id, order : order},
                 beforeSend: function(e){

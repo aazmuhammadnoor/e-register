@@ -79,6 +79,116 @@
         .badge{
             font-size: 10px;
         }
+        .card-title{
+            border-bottom: 2px solid {{ $form_register->color  }};
+            margin-bottom: 20px;
+        }
+        .preview{
+            background-color : {{ $form_register->color }} !important;
+            padding: 0px;
+        }
+        .preview-main-bg{
+            height: 200px;
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+            background-position: -75% 0px;
+        }
+        .preview-main-content{
+            max-width: 80%;
+            margin-right: auto;
+            margin-left: auto;
+            height: 200px;
+            background-color: #FFF;
+            padding: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            position: relative;
+        }
+        .preview-main-content:after{
+            content : '';
+            position: absolute;
+            height: 100%;
+            width: 3px;
+            left: 0px;
+            top: 0px;
+            background-color: {{ $form_register->color }} !important;
+        }
+        .preview-nav{
+            width: 27%;
+            box-shadow: 3px 0px 2px -2px #ced4da;
+            position: relative;
+        }
+        .preview-content{
+            width: 70%;
+        }
+        .preview-title{
+            font-weight: bold;
+            color: {{ $form_register->color }} !important;
+            text-align: right;
+            position: relative;
+        }
+        .preview-title:after{
+            content: '';
+            position: absolute;
+            height: 2px;
+            background-color: #FFBE0C;
+            width: 100px;
+            right: 0px;
+            bottom: -10px;
+            font-size: 14px;
+        }
+        .preview-nav ul {
+          padding: 0px;
+          padding-left: 30px;
+          list-style: none;
+        }
+        .preview-nav ul li {
+          margin-bottom: 0px;
+          position: relative;
+          font-size: 6px;
+          line-height: 14px;
+        }
+        .preview-nav ul li:after {
+          content: "";
+          position: absolute;
+          left: -20px;
+          top: 3px;
+          width: 7px;
+          height: 7px;
+          border: 1px solid #6c757d;
+          border-radius: 50%;
+        }
+        .preview-nav ul li:before {
+          content: "";
+          position: absolute;
+          left: -17px;
+          bottom: 10px;
+          width: 1px;
+          height: 8px;
+          background-color: #6c757d;
+        }
+        .preview-nav ul li:first-child:before {
+          content: none;
+        }
+        .preview-nav ul .active:after {
+          border: 1px solid {{ $form_register->color }} !important;;
+          background-color: {{ $form_register->color }} !important;;
+        }
+        .preview-nav ul .active:before {
+          background-color: {{ $form_register->color }} !important;;
+        }
+        .preview-nav ul .active a {
+          color: {{ $form_register->color }} !important;;
+        }
+        .btn-xs{
+            font-size: 10px;
+            padding: 2px;
+        }
+        .current-bg-color{
+            background-color: {{ $form_register->color }} !important;
+            color: #FFF;
+        }
     </style>
 @endsection
 
@@ -88,7 +198,7 @@
         <ol class="breadcrumb breadcrumb-arrow">
             <li class="breadcrumb-item"><a href="{{ url('home') }}">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{{ route('admin.form.register') }}">Semua Form</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.form.register') }}">{{ $title }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.form.register.edit',[$form_register->id]) }}">{{ $title }}</a></li>
             <li class="breadcrumb-item active">Show</li>
         </ol>
     	<div class="row">
@@ -96,9 +206,9 @@
     			<div class="card">
     				<div class="card-title d-flex flex-row justify-content-between align-items-center">
                         <h4>
-                            {{ $title }} 
+                            <a href="{{ url()->current() }}">{{ $title }} </a>
                             @if($form_register->is_active == 1)
-                                <label class="badge badge-primary bagde-sm" id="status_form">Sedang Publish</label>
+                                <label class="badge badge-primary bagde-sm current-bg-color" id="status_form">Sedang Publish</label>
                             @else
                                 <label class="badge badge-danger bagde-sm" id="status_form">Tidak Publish</label>
                             @endif
@@ -109,14 +219,18 @@
                             @else
                                 <a href="{{ route('admin.form.register.up',[$form_register->id]) }}" class="btn btn-sm btn-danger text-white general-confirm" data-title="Pubish form {{ $form_register->form_name }}"><i class="icon ti-upload"></i> Publish</a>
                             @endif
-                            <button class="btn btn-sm btn-info"><i class="icon ti-eye"></i> Preview</button>
+                            <div class="mt-1">
+                                
+                                <a href="{{ route('admin.form.register.preview',[$form_register->url]) }}" class="btn btn-sm btn-info btn-xs" target="_blank"><i class="icon ti-eye"></i> Preview</a>
+                                <button class="btn btn-sm btn-danger btn-xs btn-variables">${} Variables</button>
+                            </div>
                         </div>       
                     </div>
     				<div class="card-body form-type-fill">
                         <div class="row">
                             <div class="col-3">
                                 <div class="nav-left">
-                                    <button class="btn btn-primary btn-block" id="btn-add-step">
+                                    <button class="btn btn-primary btn-block current-bg-color border-0" id="btn-add-step">
                                         Tambah Step
                                     </button>
                                     <div class="sk-wave" id="loading-step-lists" style="display: none">
@@ -130,6 +244,53 @@
                                 </div>
                             </div>
                             <div class="col-9" id="fields-step">
+                                @if(count($form_register->hasStep) != 0)
+                                    <div class="row">
+                                        <div class="col-6 mx-auto preview">
+                                            <div class="preview-main-bg" style="background-image: url('{{ url('/').\Storage::url($form_register->background) }}')">
+                                                <div class="preview-main-content">
+                                                    <div class="preview-nav">
+                                                        <ul>
+                                                            @foreach ($form_register->hasStep as $element)
+                                                                <li class="active">
+                                                                    {{ $element->step_name }}
+                                                                </li>
+                                                            @endforeach
+                                                            <li>Preivew</li>
+                                                            <li>Selesai</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="preview-content">
+                                                        <h5 class="preview-title">
+                                                            {{$form_register->form_name}}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-12 text-center">
+                                            <a href="{{ route('admin.form.register.preview',[$form_register->url]) }}" class="btn btn-sm btn-info" target="_blank">
+                                                <i class="icon ti-eye"></i> Preview
+                                            </a>
+                                            <button class="btn btn-sm btn-danger btn-variables">
+                                                ${} Variables
+                                            </button>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="row pt-5">
+                                        <div class="col-12 text-center">
+                                           <h3>Belum ada step</h3>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                           <button class="btn btn-primary" id="btn-add-step">
+                                             Buat Step Baru
+                                           </button>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
     				</div>
@@ -217,6 +378,29 @@
     </div>
     {{-- /edit step --}}
 
+    {{-- /preview variables --}}
+    <div class="modal fade" id="view-variables">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Variables</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="max-height: 400px ; overflow: auto">
+            <table class="table table-bordered table-hovered" id="variables-content">
+                
+            </table>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{-- /preview variables --}}
+
 
     @include('layouts.footer')
 </main>
@@ -240,6 +424,43 @@
         {
            $('#addStep').modal('show')
         })
+
+        /**
+         * open variable
+         */
+         $(document).on('click','.btn-variables',function(e)
+         {
+            $('#view-variables').modal('show');
+            viewVariables();
+         })
+
+         function viewVariables()
+         {
+            $.ajax({
+                url : '{{ route('admin.form.register.variables',[$form_register->url]) }}',
+                type : 'POST',
+                data : {
+                    _token : '{{ csrf_token() }}'
+                },
+                beforeSend: function(e){},
+                error: function(e){},
+                success: function(xhr){
+                    $('#variables-content').html('');
+                    if(xhr.status == 'success')
+                    {
+                        let variables = '<tr class="current-bg-color"><th>Nama Field</th><th>Variabel</th></tr>';
+                        $.each(xhr.data,function(d,i)
+                        {
+                            variables += `<tr>
+                                        <th>${i.name}</th>
+                                        <td><code>${i.variables}</code></td>
+                                    </tr>`;
+                        });
+                        $('#variables-content').html(variables);
+                    }
+                }
+            })
+         }
 
         /**
          * open form edit step
@@ -362,6 +583,12 @@
                                                     <a href="#" script="javascript:void(0)" class="btn-delete-step text-dark" data-id="${i.id}" data-name="${i.step_name}">
                                                         <i class="icon ti-trash ml-1"></i>
                                                     </a>
+                                                    <a href="#" script="javascript:void(0)" class="btn-order-step text-dark" data-id="${i.id}" data-name="${i.step_name}" data-order="down">
+                                                        <i class="icon ti-arrow-up ml-1"></i>
+                                                    </a>
+                                                    <a href="#" script="javascript:void(0)" class="btn-order-step text-dark" data-id="${i.id}" data-name="${i.step_name}" data-order="up">
+                                                        <i class="icon ti-arrow-down ml-1"></i>
+                                                    </a>
                                                 </div>
                                             </li>`;
                         });
@@ -386,7 +613,8 @@
                 data : data,
                 error : function(xhr)
                 {
-
+                    $('#loading-edit-step').hide();
+                    $('#btn-submit-edit-step').show();
                 },
                 beforeSend : function(e)
                 {
@@ -417,7 +645,8 @@
                 data : data,
                 error : function(xhr)
                 {
-
+                    $('#loading-edit-step').hide();
+                    $('#btn-submit-edit-step').show();
                 },
                 beforeSend : function(e)
                 {
@@ -541,7 +770,7 @@
                  data : data+'&_token={{ csrf_token() }}',
                  error : function(e)
                  {
-
+                    $('#loading-edit-form-step').hide();
                  },
                  beforeSend : function(e)
                  {
@@ -557,6 +786,11 @@
                     if(xhr.status == 'success')
                     {
                         loadFieldStep(id);
+                    }else{
+                        $.alert({
+                            title: 'Oops',
+                            content: xhr.message,
+                        });
                     }
                  }
             })
@@ -571,5 +805,40 @@
 
             loadFieldStep(id);
         })
+
+        /**
+         * order form step
+         */
+         $(document).on('click','.btn-order-step',function(e)
+         {
+            let id = $(this).data('id');
+            let order = $(this).data('order');
+            orderStep(id,order);
+         });
+
+         function orderStep(id,order)
+         {
+            $.ajax({
+                url : '{{ url('admin/form-step') }}/'+id+'/order',
+                type : 'POST',
+                data : {
+                    _token : '{{ csrf_token() }}',
+                   order : order
+                },
+                beforeSend: function(e){
+                    $('#loading-edit-step').show();
+                    $('#btn-submit-edit-step').hide();
+                },
+                error : function(e){
+                    $('#loading-edit-step').hide();
+                    $('#btn-submit-edit-step').show();
+                },
+                success : function(e)
+                {
+                    mainLoad();
+                }
+            })
+         }
+
     </script>
 @endsection

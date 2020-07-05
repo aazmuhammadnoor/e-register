@@ -19,9 +19,9 @@
     <link href="{{ asset('themes/confirm/jquery-confirm.min.css') }}" rel="stylesheet">
     @yield('custom-style')
     <!-- Favicons -->
-    <link rel="apple-touch-icon" href="{{ asset('themes/img/logo-publik.png') }}">
-    <link rel="icon" href="{{ asset('themes/img/logo-publik.png') }}">
-    <link rel="shortcut icon" href="{{ asset('themes/img/logo-publik.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('uploads/'.$identitas->logo_public) }}">
+    <link rel="icon" href="{{ asset('uploads/'.$identitas->logo_public) }}">
+    <link rel="shortcut icon" href="{{ asset('uploads/'.$identitas->logo_public) }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
   </head>
   <body>

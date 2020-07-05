@@ -48,10 +48,10 @@
                                         <td class="text-warning">{{ $rs->url }}</td>
                                         <td class="text-center text-success"><i class="{{ $rs->icon }}"></i></td>
                                         <td class="text-center table-actions">
-                                            <a href="{{ url('config/menu', [$rs->id,'edit']) }}" class="table-action hover-primary">
+                                            <a href="{{ url('admin/config/menu', [$rs->id,'edit']) }}" class="table-action hover-primary">
                                                 <i class="ti-pencil"></i>
                                             </a>
-                                            <a data-title="Menu {{ $rs->label }}" href="{{ url('config/menu', [$rs->id,'delete']) }}" class="table-action hover-danger konfirmasi">
+                                            <a data-title="Menu {{ $rs->label }}" href="{{ url('admin/config/menu', [$rs->id,'delete']) }}" class="table-action hover-danger konfirmasi">
                                                 <i class="ti-trash"></i>
                                             </a>
                                         </td>

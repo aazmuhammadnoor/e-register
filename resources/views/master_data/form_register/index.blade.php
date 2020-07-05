@@ -97,7 +97,7 @@
                                  </li>
                                 @endforeach
                             </ul>
-                            {{ $form_register->links() }}
+                            {!! $form_register->links() !!}
     					@else
     						<div class="alert alert-danger">
     							Belum ada Data

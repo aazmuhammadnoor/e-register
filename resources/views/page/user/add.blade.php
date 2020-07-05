@@ -67,6 +67,12 @@
                                     @endforeach
                                 </div> 
                             </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {!! Form::checkbox('email_notif',1,true) !!}
+                                    Notifikasi Email
+                                </div>
+                            </div>
                         </div>
     				</div>
                     <footer class="card-footer text-left">

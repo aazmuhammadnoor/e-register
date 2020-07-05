@@ -27,9 +27,10 @@
     								<tr>
     									<th class="text-center" width="32">No</th>
     									<th>Nama Lengkap</th>
-                                        <!--<th>Email</th>-->
+                                        <th>Email</th>
                                         <th>Username</th>
                                         <th>Role</th>
+                                        <th>Notifikasi</th>
     									<th width="100" class="text-center">Aksi</th>
     								</tr>
     							</thead>
@@ -38,7 +39,7 @@
     								<tr>
     									<td class="text-center">{{ $no }}</td>
     									<td>{{ $rs->name }}</td>
-                                        <!--<td>{{ $rs->email }}</td>-->
+                                        <td>{{ $rs->email }}</td>
                                         <td class="text-danger">{{ $rs->username }}</td>
                                         <td class="text-success">
                                             @if($rs->is_admin)
@@ -50,6 +51,9 @@
                                                 n/a
                                                 @endif
                                             @endif
+                                        </td>
+                                        <td class="{{ ($rs->email_notif == 1) ? 'text-success' : 'text-danger' }}">
+                                            {{ ($rs->email_notif == 1) ? 'Ya' : 'Tidak' }}
                                         </td>
                                         <td class="text-center table-actions">
                                             <a href="{{ url('admin/config/users', [$rs->id,'edit']) }}" class="table-action hover-primary">

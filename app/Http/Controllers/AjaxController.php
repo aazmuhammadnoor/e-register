@@ -352,4 +352,29 @@ class AjaxController extends Controller
 
     }
 
+    /**
+     * @method getLocation
+     * @param $kelurahan
+     * @return JSON
+     */
+    public function getLocation($kelurahan)
+    {
+    	$kelurahan = Kelurahan::where('kode_kel',$kelurahan)->first();
+    	if(!$kelurahan)
+    	{
+    		$response = [
+    			'status' => 'error',
+    			'message' => 'lokasi tidak ditemukan'
+    		];
+    		return response()->json($response);
+    	}
+    	$data = [
+    		'kode_prov' => $kelurahan->thisKecamatan->thisKabupaten->thisProvinsi->kode_prov,
+    		'kode_kab' => $kelurahan->thisKecamatan->thisKabupaten->kode_kab,
+    		'kode_kec' => $kelurahan->thisKecamatan->kode_kec,
+    		'kode_kel' => $kelurahan->kode_kel
+    	];
+    	return response()->json($data);
+    }
+
 }

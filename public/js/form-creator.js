@@ -6,7 +6,7 @@ let column = 0;
 /**
  * add new column
  */
-function addColumn()
+function addColumn(after=null)
 {
 	let column_field = `<li id="field_lists_${column}">
 		                    <div class="dropdown">
@@ -14,7 +14,7 @@ function addColumn()
 		                        <i class="icon ti-more-alt"></i>
 		                      </button>
 		                      <div class="dropdown-menu">
-		                        <a class="dropdown-item" href="#" script="javascript:void(0)" data-id="${column}">Insert</a>
+		                        <a class="dropdown-item insert-column" href="#" script="javascript:void(0)" data-id="${column}">Insert</a>
 		                        <a class="dropdown-item remove-column" href="#" script="javascript:void(0)" data-id="${column}">Delete</a>
 		                      </div>
 		                    </div>
@@ -29,6 +29,7 @@ function addColumn()
 		                        <option value="radio">Choice</option>
 		                        <option value="checkbox">Checklis</option>
 		                        <option value="textarea">Textbox</option>
+		                        <option value="multitext">Multi Input</option>
 		                        <option value="file">Upload</option>
 		                        <option value="address">Alamat Administratif</option>
 		                        <option value="address_autocomplete">AutoComplete Alamat Administratif </option>
@@ -44,11 +45,16 @@ function addColumn()
 		                        <option value="9">3/4</option>
 		                    </select>
 		                    <select class="form-control col-1 mx-2" name="required[]" >
+		                        <option value="">Tidak Wajib</option>
 		                        <option value="required">Wajib</option>
-		                        <option value="false">Tidak Wajib</option>
 		                    </select>
 		                </li>`;
-	$('.form-lists').append(column_field);
+	if(after == null)
+	{
+		$('.form-lists').append(column_field);
+	}else{
+		$(column_field).insertAfter("#field_lists_"+after);
+	}                
     column++;
 }
 
@@ -63,7 +69,7 @@ function loadMetadata(metadata)
 		                        <i class="icon ti-more-alt"></i>
 		                      </button>
 		                      <div class="dropdown-menu">
-		                        <a class="dropdown-item" href="#" script="javascript:void(0)" data-id="${d}">Insert</a>
+		                        <a class="dropdown-item insert-column" href="#" script="javascript:void(0)" data-id="${d}">Insert</a>
 		                        <a class="dropdown-item remove-column" href="#" script="javascript:void(0)" data-id="${d}">Delete</a>
 		                      </div>
 		                    </div>
@@ -78,9 +84,10 @@ function loadMetadata(metadata)
 		                        <option ${(i.type == 'radio') ? 'selected' : ''} value="radio">Choice</option>
 		                        <option ${(i.type == 'checkbox') ? 'selected' : ''} value="checkbox">Checklis</option>
 		                        <option ${(i.type == 'textarea') ? 'selected' : ''} value="textarea">Textarea</option>
+		                        <option ${(i.type == 'multitext') ? 'selected' : ''} value="multitext">Multi Input</option>
 		                        <option ${(i.type == 'file') ? 'selected' : ''} value="file">Upload</option>
 		                        <option ${(i.type == 'address') ? 'selected' : ''} value="address">Alamat Administratif</option>
-		                        <option ${(i.type == 'address_autocomplete') ? 'selected' : ''} value="address">AutoComplete Alamat Administratif</option>
+		                        <option ${(i.type == 'address_autocomplete') ? 'selected' : ''} value="address_autocomplete">AutoComplete Alamat Administratif</option>
 		                    </select>
 		                    <input type="text" name="options[]" class="form-control col-3 mx-2" placeholder="Pilihan Ex : Pria,Wanita" value="${i.options}">
 		                    <select class="form-control col-2 mx-2" name="column_length[]">
@@ -93,8 +100,8 @@ function loadMetadata(metadata)
 		                        <option ${(i.column_length == '9') ? 'selected' : ''} value="9">3/4</option>
 		                    </select>
 		                    <select class="form-control col-1 mx-2" name="required[]">
+		                    	<option ${(i.required == '') ? 'selected' : ''} value="">Tidak Wajib</option>
 		                        <option ${(i.required == 'required') ? 'selected' : ''} value="required">Wajib</option>
-		                        <option ${(i.required == 'false') ? 'selected' : ''} value="false">Tidak Wajib</option>
 		                    </select>
 		                </li>`;
 		column++;
@@ -117,6 +124,14 @@ function checkcolumn()
  */
 $(document).on('click','#add-column',function(e){
     addColumn();
+})
+
+/**
+ * insert column
+ */
+$(document).on('click','.insert-column',function(e){
+	let id = $(this).data('id');
+    addColumn(id);
 })
 
 /**

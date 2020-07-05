@@ -49,7 +49,7 @@ class UserController extends Controller
     		'email'=>'required|email|unique:users',
     		'username'=>'required|unique:users',
     		'password'=>'required',
-    		'roles'=>'required'
+    		'roles'=>'required',
     	]);
         
     	$rs = new User;
@@ -57,6 +57,12 @@ class UserController extends Controller
     	$rs->email = $r->email;
     	$rs->username = $r->username;
     	$rs->password = $r->password;
+        if($r->has('email_notif'))
+        {
+            $rs->email_notif = 1;
+        }else{
+            $rs->email_notif = 0;
+        }
 
     	$rs->save();
     	$rs->roles()->sync($r->roles);
@@ -67,12 +73,9 @@ class UserController extends Controller
     function EditUser(User $user)
     {
     	$roles = Role::all();
-        $kategori_dinas = KategoriDinas::all();
-        $bidang_izin = BidangIzin::all();
-        $seksi_izin = SeksiIzin::all();
     	$title = "Edit Data User/Pengguna";
     	$ext_role = $user->roles()->get()->pluck('id')->toArray();
-    	return view('page.user.edit', compact('title','roles','user','ext_role','kategori_dinas','bidang_izin','seksi_izin'));
+    	return view('page.user.edit', compact('title','roles','user','ext_role'));
     }
 
     function UpdateUser(Request $r, User $user)
@@ -83,14 +86,12 @@ class UserController extends Controller
     	if($r->has('password'))
     		$user->password = $r->password;
 
-        if($r->has('kategori_dinas'))
-            $user->kategori_dinas = $r->kategori_dinas;
-        
-        if($r->has('bidang_izin'))
-            $user->bidang_izin = $r->bidang_izin;
-
-        if($r->has('seksi_izin'))
-            $user->seksi_izin = $r->seksi_izin;
+        if($r->has('email_notif'))
+        {
+            $user->email_notif = 1;
+        }else{
+            $user->email_notif = 0;
+        }
 
     	$user->save();
     	$user->roles()->sync($r->roles);

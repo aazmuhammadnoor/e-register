@@ -17,4 +17,9 @@ class TempRegister extends Model
     {
         return $this->belongsTo('App\Models\FormRegister','form_register','id');
     }
+
+    function hasData()
+    {
+    	return $this->hasMany('App\Models\TempRegisterData','temp_register','id');
+    }
 }

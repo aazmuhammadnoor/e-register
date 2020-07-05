@@ -67,45 +67,13 @@
                                     @endforeach
                                 </div> 
                             </div>
-                            <div class="form-group col-6">
-                                <p class="text-info"><strong>Kategori Dinas</strong></p>
-                                <div class="custom-controls-stacked">
-                                    @foreach ($kategori_dinas as $kat) 
-                                        <label class="custom-control custom-radio">
-                                            {{ Form::radio('kategori_dinas',  $kat->id, ($kat->id == $user->kategori_dinas ? true : false), ['class'=>'custom-control-input'] ) }}
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">{{ $kat->nama}}</span>
-                                        </label>
-                                    @endforeach
-                                </div> 
-                            </div>                            
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <p class="text-info"><strong>Bidang Perizinan</strong></p>
-                                <div class="custom-controls-stacked">
-                                    @foreach ($bidang_izin as $bid) 
-                                        <label class="custom-control custom-radio">
-                                            {{ Form::radio('bidang_izin',  $bid->id, ($bid->id == $user->bidang_izin ? true : false), ['class'=>'custom-control-input'] ) }}
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">{{ $bid->nama}}</span>
-                                        </label>
-                                    @endforeach
-                                </div> 
-                            </div>
-                            <div class="form-group col-6">
-                                <p class="text-info"><strong>Seksi Perizinan</strong></p>
-                                <div class="custom-controls-stacked">
-                                    @foreach ($seksi_izin as $seksi) 
-                                        <label class="custom-control custom-radio">
-                                            {{ Form::radio('seksi_izin',  $seksi->id, ($seksi->id == $user->seksi_izin ? true : false), ['class'=>'custom-control-input'] ) }}
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">{{ $seksi->nama}}</span>
-                                        </label>
-                                    @endforeach
-                                </div> 
-                            </div>
-                        </div>                        
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {!! Form::checkbox('email_notif',1,($user->email_notif == 1) ? true : false) !!}
+                                    Notifikasi Email
+                                </div>
+                            </div>                          
+                        </div>                       
     				</div>
                     <footer class="card-footer text-left">
                         <button class="btn btn-label btn-primary btn-sm">

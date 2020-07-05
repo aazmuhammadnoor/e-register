@@ -17,5 +17,4 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript" src="{{ asset('js/eregister.js') }}"></script>
 @endsection

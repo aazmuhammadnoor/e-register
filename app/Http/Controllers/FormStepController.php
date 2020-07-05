@@ -29,7 +29,7 @@ class FormStepController extends Controller
 
     	/*number of this step*/
     	$exists_step = FormStep::where('form_register',$formRegister->id)->max('order_number');
-    	if(!$exists_step)
+    	if($exists_step)
     	{
     		$this_step = $exists_step+1;
     	}else{
@@ -151,6 +151,14 @@ class FormStepController extends Controller
     public function updateMeta(Request $r, FormStep $formStep){
 		
 		$meta = [];
+        if(count(array_unique($r->field_name))<count($r->field_name))
+        {
+           $response = [
+                'status' => 'error',
+                'message' => 'Tidak boleh ada nama kolom yang sama'
+            ];
+            return response()->json($response);
+        }
 		foreach($r->field_name as $key => $row)
 		{
 			$field = [
@@ -178,5 +186,63 @@ class FormStepController extends Controller
     		];
     		return response()->json($response);
     	}
+    }
+
+    /**
+     * @method orderStep
+     * @param $data App\Models\FormRegister Id
+     * @param $r Illuminate\Http\Request;
+     * @return json
+     */
+    public function orderStep(Request $r, FormStep $formStep){
+        
+        $data = [
+            'order'
+        ];
+        if(!requireData($data,$r))
+        {
+            $response = [
+                'status' => 'error'
+            ];
+            return response()->json($response); 
+        }
+
+        $this_position = $formStep->order_number;
+        $count_form_step = FormStep::where('form_register',$formStep->form_register)->count();
+
+        
+        if($r->order == 'down') //down order
+        {
+
+            if($this_position > 1)
+            {
+                $below = FormStep::where('order_number',$this_position-1)
+                                    ->where('form_register',$formStep->form_register)
+                                    ->first();
+                $below->order_number = $this_position;
+                $below->save();
+
+                $formStep->order_number = $this_position-1;
+                $formStep->save();
+            }
+        }else{ //up order
+
+            if($this_position < $count_form_step)
+            {
+                $above = FormStep::where('order_number',$this_position+1)
+                                    ->where('form_register',$formStep->form_register)
+                                    ->first();
+                $above->order_number = $this_position;
+                $above->save();
+
+                $formStep->order_number = $this_position+1;
+                $formStep->save();
+            }
+
+        }
+        $response = [
+            'status' => 'success'
+        ];
+        return response()->json($response);
     }
 }

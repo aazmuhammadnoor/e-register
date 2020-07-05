@@ -347,7 +347,8 @@ footer{
 	padding: 30px 10px 20px 10px;
 	color: $white-color;
 	text-align: center;
-	background-color: $primary-color-dark
+	background-color: $primary-color-dark;
+	box-shadow :  0px -6px 8px 0px $gray-800;
 }
 
 .modal-register{
@@ -356,7 +357,7 @@ footer{
 			border : 0px;
 		}
 		.modal-body{
-			height: 300px;
+			max-height: 300px;
 			overflow: auto;
 			padding: 2rem;
 			ul{
@@ -548,7 +549,7 @@ footer{
 		padding: 20px;
 		padding-top: 30px;
 		padding-left: 50px;
-		min-height: calc(100vh - 160px);
+		min-height: calc(100vh - 180px);
 		ul{
 			padding: 0px;
 			padding-left: 30px;
@@ -656,18 +657,48 @@ footer{
 
 .dropzone{
 	position: relative;
-	/*&:after{
-		content : '<i class="icon ti-upload" class="current-color"></i>';
-		position: absolute;
-		top: 50px;
-		left: 0px;
-		right: 0px;
-	};*/
 	display: flex;
 	flex-direction : column;
 	align-items: center;
+	border: 1px dashed $primary-color !important;
+	border-radius: 4px;
 	.dz-preview{
 		margin-left: auto;
 		margin-right: auto;
+	}
+}
+
+.loading-container{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	background-color: unquote($primary-color+'CC');
+	height: 100vh;
+	z-index: 1500;
+	display: none;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.loading-container-show{
+	display: flex;
+}
+
+.sk-wave{
+	.sk-rect{
+		background-color: $white-color !important;
+	}
+}
+
+.eregister-table{
+	tr{
+		td{
+			ul{
+				padding: 0px;
+				padding-left: 15px;
+			}
+		}
 	}
 }

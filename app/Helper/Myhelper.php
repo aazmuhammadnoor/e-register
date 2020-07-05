@@ -1176,3 +1176,200 @@ if(!function_exists("requireData")){
             return $status;
         }
     }
+
+if(!function_exists('pathQR'))
+{
+    function pathQR($register)
+    {
+        $path = \Storage::path('qr_register/'.$register->thisFormRegister->url);
+        if(!\File::exists($path)) {
+            \File::makeDirectory($path, 0775, true, true);
+        }
+        return $path;
+    }
+}
+
+if(!function_exists('createDIR'))
+{
+    function createDIR($path)
+    {
+        $dir = \Storage::path($path);
+        if(!\File::exists($dir)) {
+            \File::makeDirectory($dir, 0775, true, true);
+        }
+        return $dir;
+    }
+}
+
+
+if(!function_exists('generateQR'))
+{
+    function generateQR($register)
+    {
+        $path = pathQR($register);
+
+        $qrcode_content = str_slug($register->register_number);
+        $qrcode_image = str_slug($register->register_number).".png";
+
+        \QrCode::format('png')->size(150)
+            ->margin(0)
+            ->generate($qrcode_content,$path."/".$qrcode_image);
+
+        return $path."/".$qrcode_image;
+    }
+}
+
+if(!function_exists('renderMeta'))
+{
+    function renderMeta($register,$step,$field_name,$type)
+    {
+       $register_data = \App\Models\RegisterData::where('register',$register->id)
+                                                ->where('form_step',$step->id)
+                                                ->first();
+        $data = json_decode($register_data->data);
+
+        /*<option value="text" hidden>Tipe</option>
+                                <option value="title">Judul</option>
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Tanggal</option>
+                                <option value="select">Dropdown</option>
+                                <option value="radio">Choice</option>
+                                <option value="checkbox">Checklis</option>
+                                <option value="textarea">Textbox</option>
+                                <option value="multitext">Multi Input</option>
+                                <option value="file">Upload</option>
+                                <option value="address">Alamat Administratif</option>
+                                <option value="address_autocomplete">AutoComplete Alamat Administratif </option>*/
+        switch ($type) {
+            case 'text':
+            case 'number':
+            case 'select':
+            case 'radio':
+            case 'textarea':
+                return renderText($field_name,$data);
+            break;
+            case 'date':
+                return renderDate($field_name,$data);
+            break;
+            case 'checkbox':
+            case 'multitext':
+                return renderArray($field_name,$data);
+            break;
+            case 'file':
+                return renderFile($field_name,$data);
+            break;
+            case 'address':
+            case 'address_autocomplete':
+                return renderAddress($field_name,$data);
+            break;
+            default:
+                # code...
+                break;
+        }
+    }
+}
+
+if(!function_exists('renderText'))
+{
+    function renderText($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    $value = $row->value;
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+if(!function_exists('renderArray'))
+{
+    function renderArray($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    $value = '<ul>';
+                    foreach ($row->value as $d => $item) {
+                       $value .= '<li>'.$item.'</li>';
+                    }
+                    $value .= '</ul>';
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+if(!function_exists('renderFile'))
+{
+    function renderFile($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->path))
+                {
+                    $value = "<a href='' class='current-color'><i class='icon ti-download'></i> Download</a>";
+                }else{
+                    $value = "<i>Belum ada unggahan</i>";
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+if(!function_exists('renderDate'))
+{
+    function renderDate($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    $value = $row->value;
+                }
+            }
+        }
+        return \Carbon\Carbon::parse($value)->format('d F Y');
+    }
+}
+
+if(!function_exists('renderAddress'))
+{
+    function renderAddress($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    if(count($row->value) > 1)
+                    {
+                        $value = $row->value[1];
+                    }
+                }
+            }
+        }
+        return $value;
+    }
+}

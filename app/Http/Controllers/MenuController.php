@@ -78,19 +78,18 @@ class MenuController extends Controller
     	$menu->label = $r->label;
     	$menu->url = $r->url;
     	$menu->icon = $r->icon;
-    	if($r->has('parent'))
-    		$menu->parent = $r->parent;
+    	$menu->parent = $r->parent;
     	$menu->save();
     	$menu->roles()->sync($r->roles);
 		flash('Perubahan Menu Berhasil Disimpan')->success();
-    	return redirect('config/menu');
+    	return redirect('admin/config/menu');
     }
 
     function DeleteMenu(Menu $menu)
     {
 		$menu->delete();
 		flash('Menu Berhasil Dihapus')->warning();
-    	return redirect('config/menu');
+    	return redirect('admin/config/menu');
     }
 
     function sort()

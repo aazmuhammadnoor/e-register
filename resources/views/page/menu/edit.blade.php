@@ -19,7 +19,7 @@
     		<div class="col-12">
     			<div class="card">
     				<h4 class="card-title">{{ $title }}</h4>
-                    {{ Form::open(['url' => 'config/menu/'.$menu->id.'/edit']) }}
+                    {{ Form::open(['url' => 'admin/config/menu/'.$menu->id.'/edit']) }}
     				<div class="card-body form-type-fill">
                         @if ($errors->any())
                             @foreach ($errors->all() as $error)

@@ -12,4 +12,9 @@ class TempRegisterData extends Model
      {
         return $this->belongsTo('App\Models\TempRegister','form_register','id');
      }
+
+     function thisFormStep()
+     {
+        return $this->belongsTo('App\Models\FormStep','form_step','id');
+     }
 }

@@ -315,13 +315,14 @@ footer {
   color: #FFFFFF;
   text-align: center;
   background-color: #008376;
+  box-shadow: 0px -6px 8px 0px #343a40;
 }
 
 .modal-register .modal-content .modal-header {
   border: 0px;
 }
 .modal-register .modal-content .modal-body {
-  height: 300px;
+  max-height: 300px;
   overflow: auto;
   padding: 2rem;
 }
@@ -510,7 +511,7 @@ footer {
   padding: 20px;
   padding-top: 30px;
   padding-left: 50px;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 180px);
 }
 .eregister-register-page .nav-left ul {
   padding: 0px;
@@ -612,20 +613,42 @@ footer {
 
 .dropzone {
   position: relative;
-  /*&:after{
-  	content : '<i class="icon ti-upload" class="current-color"></i>';
-  	position: absolute;
-  	top: 50px;
-  	left: 0px;
-  	right: 0px;
-  };*/
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px dashed #009F8F !important;
+  border-radius: 4px;
 }
 .dropzone .dz-preview {
   margin-left: auto;
   margin-right: auto;
+}
+
+.loading-container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  background-color: #009F8FCC;
+  height: 100vh;
+  z-index: 1500;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-container-show {
+  display: flex;
+}
+
+.sk-wave .sk-rect {
+  background-color: #FFFFFF !important;
+}
+
+.eregister-table tr td ul {
+  padding: 0px;
+  padding-left: 15px;
 }
 
 /*# sourceMappingURL=style.css.map */

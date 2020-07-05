@@ -59,7 +59,17 @@
                                                     {!! Form::label('singkatan_instansi','Singkatan',['class'=>'require']) !!}
                                                     {!! Form::text('singkatan_instansi',$rs->singkatan_instansi,['class'=>'form-control form-control-sm']) !!}
                                                 </div>  
-                                            </div>          
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-8">
+                                                    {!! Form::label('alamat_instansi','Alamat Instansi',['class'=>'require']) !!}
+                                                    {!! Form::text('alamat_instansi',$rs->alamat_instansi,['class'=>'form-control form-control-sm']) !!}
+                                                </div> 
+                                                <div class="form-group col-4">
+                                                    {!! Form::label('telepon_instansi','Telepon Instansi',['class'=>'require']) !!}
+                                                    {!! Form::text('telepon_instansi',$rs->telepon_instansi,['class'=>'form-control form-control-sm']) !!}
+                                                </div> 
+                                            </div>           
                                         </div>
                                         <h6 class="text-light fw-300">APLIKASI</h6>
                                         <div class="form-groups-attached">
@@ -97,33 +107,9 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-6 file-group file-browser">
-                                                    {!! Form::label('kop_surat','Kop Surat',['class'=>'require']) !!}
-                                                    {!! Form::text('kop_surat_value',$rs->kop_surat,['class'=>'form-control file-value']) !!}
-                                                    {!! Form::file('kop_surat') !!}
-                                                </div>
-                                                <div class="form-group col-6 file-group file-browser">
-                                                    {!! Form::label('ttd_elektronik','Tanda Tangan Elektronik',['class'=>'require']) !!}
-                                                    {!! Form::text('ttd_elektronik_value',$rs->ttd_elektronik,['class'=>'form-control file-value']) !!}
-                                                    {!! Form::file('ttd_elektronik') !!}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-6 file-group file-browser">
                                                     {!! Form::label('bukti_pendaftaran','Tempalte Word Bukti Pendaftaran',['class'=>'require']) !!}
                                                     {!! Form::text('bukti_pendaftaran_value',$rs->bukti_pendaftaran,['class'=>'form-control file-value']) !!}
                                                     {!! Form::file('bukti_pendaftaran') !!}
-                                                </div>
-                                                <div class="form-group col-6 file-group file-browser">
-                                                    {!! Form::label('surat_pernyataan','Surat Pernyataan',['class'=>'require']) !!}
-                                                    {!! Form::text('surat_pernyataan_value',$rs->surat_pernyataan,['class'=>'form-control file-value']) !!}
-                                                    {!! Form::file('surat_pernyataan') !!}
-                                                </div>
-                                            </div>  
-                                            <div class="row">
-                                                <div class="form-group col-6 file-group file-browser">
-                                                    {!! Form::label('surat_pencabutan','SK Pencabutan Default',['class'=>'require']) !!}
-                                                    {!! Form::text('surat_pencabutan_value',$rs->surat_pencabutan,['class'=>'form-control file-value']) !!}
-                                                    {!! Form::file('surat_pencabutan') !!}
                                                 </div>
                                                 <div class="form-group col-6 file-group file-browser">
                                                 </div>

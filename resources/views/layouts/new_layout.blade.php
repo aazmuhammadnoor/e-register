@@ -12,6 +12,7 @@
     <link href="{{ asset('new_layout/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('themes/confirm/jquery-confirm.min.css') }}" rel="stylesheet">
     <link href="{{ asset('themes/vendor/themify-icons/css/themify-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('themes/vendor/spinkit/spinkit.css') }}" rel="stylesheet">
     <link href="{{ asset('new_layout/plugins/dropzone/dist/dropzone.css') }}" rel="stylesheet">
     @yield('css')
     <!-- Favicons -->
@@ -22,7 +23,7 @@
     <header>
         <nav class="navbar fixed-top eregister-navbar">
           <div class="container">
-              <a class="navbar-brand" href="01_sp_home.html">
+              <a class="navbar-brand" href="{{ url('/') }}">
                 <img src="{{ asset('uploads/'.$identitas->logo_public) }}" alt="{{ $identitas->instansi }}">
                 <div class="title">
                     <h5>{{ $identitas->instansi }}</h5>
@@ -31,14 +32,21 @@
               </a>
               <div class="eregister-navbar-menu ml-auto">
                 <ul>
-                    <li><a href="#" class="main-link">Pendaftaran</a>
+                    <li><a href="#" class="main-link">Register</a>
                         <ul>
-                            <li><a href="#">Pendaftaran Mahasiswa</a></li>
-                            <li><a href="#">Pendaftaran Siswa</a></li>
+                            @php
+                              $register = \App\Models\FormRegister::where('is_active',1)->get();  
+                            @endphp
+                            @foreach ($register as $row)
+                            <li><a href="#!" script="javascript:void(0)" class="open-register" data-url="{{ $row->url }}">{{ $row->form_name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                     <li><a href="#!" class="main-link">
                         Cek Pendaftaran
+                    </a></li>
+                    <li><a href="{{ url('/login') }}" class="main-link">
+                        Login
                     </a></li>
                 </ul>
               </div>
@@ -48,7 +56,7 @@
 
     @yield('content')
 
-    <footer class="eregister-footer">
+    <footer class="eregister-footer current-bg-color">
         Copyright @2020 Picsi
     </footer>
 
@@ -80,6 +88,7 @@
     <script src="{{ asset('new_layout/js/popper.min.js') }}"></script>
     <script src="{{ asset('new_layout/js/bootstrap.js') }}"></script>
     <script src="{{ asset('new_layout/plugins/dropzone/dist/dropzone.js') }}"></script>
+    <script src="{{ asset('themes/confirm/jquery-confirm.min.js') }}"></script>
     <script type="text/javascript">
         /* global var */
         let url = '{{ url('/') }}';
@@ -89,6 +98,51 @@
         {
             return '{{ url('/') }}/'+url;
         }
+        
+        /**
+         * open register
+         */
+        $(document).on('click','.open-register',function(e)
+        {
+          e.preventDefault();
+          let url_code = $(this).data('url');
+          $.ajax({
+            url : base_url('register-info'),
+            type : 'POST',
+            data : {
+              _token : csrf_token,
+              url : url_code
+            },
+            error : function(xhr){},
+            beforeSend : function(xhr){},
+            success : function(xhr)
+            {
+              if(xhr.status == 'success')
+              {
+                $('#register-intro-title').text(xhr.title);
+                $('#register-intro-button').attr('href',url+'/register/'+xhr.url);
+                $('#register-intro-info').attr('href',url+'/register/'+xhr.url+'/info');
+                $('#register-intro-content').html(xhr.info);
+
+                /*files*/
+                if(xhr.files.length > 0)
+                {
+                  let files = `<b>Berkas-berkas</b><ul>`;
+                  $.each(xhr.files,function(d,i)
+                  {
+                    files += `<li>${i}</li>`;
+                  })
+                  files += `</ul>`;
+                  $('#register-intro-content').append(files);
+                }
+
+              }else{
+                $('#register-intro-title').html('');
+              }
+            }
+          })
+          $('#register-intro').modal('show');
+        });
     </script>
     {!! $identitas->embed_widget !!} 
     @yield('js')

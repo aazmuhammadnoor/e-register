@@ -28,6 +28,8 @@ class IdentitasController extends Controller
     	$this->validate($r, [
     		'instansi'=>'required',
     		'singkatan_instansi'=>'required',
+            'alamat_instansi'=>'required',
+            'telepon_instansi'=>'required',
     		'footer'=>'required',
     		'nama_aplikasi'=>'required',
     		'logo_public'=>'sometimes|mimes:png,jpeg,jpg',
@@ -50,7 +52,9 @@ class IdentitasController extends Controller
             'singkatan_instansi'=>$r->singkatan_instansi,
             'footer'=>$r->footer,
             'nama_aplikasi'=>$r->nama_aplikasi,
-            'embed_widget'=>$r->embed_widget
+            'embed_widget'=>$r->embed_widget,
+            'alamat_instansi' => $r->alamat_instansi,
+            'telepon_instansi' => $r->telepon_instansi
         ];
 
         if($r->hasFile('logo_public')){

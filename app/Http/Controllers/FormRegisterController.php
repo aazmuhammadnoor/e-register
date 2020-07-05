@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\FormRegister;
+use App\Models\FormStep;
 use Storage;
 
 class FormRegisterController extends Controller
@@ -21,6 +22,7 @@ class FormRegisterController extends Controller
      * global variables
      */
     public $active = [0 => 'Tidak', 1 => 'Ya'];
+    public $default_email_register_confirm = 'Hi ${email}, Terimakasih telah mendaftar, untuk info selanjutnya akan kami hubungi via email atau kontak yang terdaftar pada form registrasi';
 
     /**
      * @method lists
@@ -41,7 +43,13 @@ class FormRegisterController extends Controller
         $title = "Form Register Baru";
         $form_register = new FormRegister;
         $active = $this->active;
-        return view('master_data.form_register.form',compact('title','form_register','active'));
+        if(!$form_register->register_email_confirm)
+        {
+            $register_email_confirm = $this->default_email_register_confirm;
+        }else{
+            $register_email_confirm = $form_register->register_email_confirm;
+        }
+        return view('master_data.form_register.form',compact('title','form_register','active','register_email_confirm'));
     }
 
     /**
@@ -95,8 +103,10 @@ class FormRegisterController extends Controller
         $form_register = new FormRegister;
 
         $form_register->form_name = $r->form_name;
+        $form_register->register_code = $r->register_code;
         $form_register->color = $r->color;
         $form_register->info = $r->info;
+        $form_register->register_email_confirm = $r->register_email_confirm;
         $form_register->url = $this->url();
         $form_register->is_active = 0;
 
@@ -126,7 +136,13 @@ class FormRegisterController extends Controller
         $title = "Edit Form Register";
         $form_register = $data;
         $active = $this->active;
-        return view('master_data.form_register.form',compact('title','form_register','active'));
+        if(!$form_register->register_email_confirm)
+        {
+            $register_email_confirm = $this->default_email_register_confirm;
+        }else{
+            $register_email_confirm = $form_register->register_email_confirm;
+        }
+        return view('master_data.form_register.form',compact('title','form_register','active','register_email_confirm'));
     }
 
     /**
@@ -143,8 +159,10 @@ class FormRegisterController extends Controller
         $form_register = $data;
 
         $form_register->form_name = $r->form_name;
+        $form_register->register_code = $r->register_code;
         $form_register->color = $r->color;
         $form_register->info = $r->info;
+        $form_register->register_email_confirm = $r->register_email_confirm;
         if($r->hasFile('template_register')){
             if(file_exists(storage::path($form_register->template_register)))
             {
@@ -168,7 +186,7 @@ class FormRegisterController extends Controller
         $form_register->save();
 
         flash('Form Register Berhasil diubah')->success();
-        return redirect()->route('admin.form.register');
+        return redirect()->route('admin.form.register.show',[$form_register->id]);
     }
 
     /**
@@ -232,6 +250,118 @@ class FormRegisterController extends Controller
 
         flash('Form Register tidak dipublish')->success();
         return redirect()->route('admin.form.register.show',[$data->id]);
+    }
+
+    /**
+     * @method preview
+     * @param url
+     * @return void
+     */
+    public function preview($url)
+    {
+        $form_register = FormRegister::where('url',$url)
+                                    ->first();
+        if(!$form_register)
+        {
+            abort('404');
+        }
+
+        $title = $form_register->form_name;
+        $form_step = FormStep::where('form_register',$form_register->id)
+                            ->orderBy('order_number','asc')
+                            ->get();
+
+        return view('master_data.form_register.preview',compact('title','form_register','form_step'));
+    }
+
+    /**
+     * @method variables
+     * @param url
+     * @return json
+     */
+    public function variables($url)
+    {
+        $form_register = FormRegister::where('url',$url)
+                                    ->first();
+
+
+        if(!$form_register)
+        {
+            $response = [
+                'status' => 'error',
+            ];
+            return response()->json($response);
+        }
+
+        $variables = [
+            [
+                'name' => 'Judul Form',
+                'variables' => 'title'
+            ],
+            [
+                'name' => 'Tanggal Waktu Registrasi',
+                'variables' => 'date_time'
+            ],
+            [
+                'name' => 'Tanggal Registrasi',
+                'variables' => 'date'
+            ],
+            [
+                'name' => 'Alamat Email',
+                'variables' => 'email'
+            ],
+            [
+                'name' => 'Nomor Registrasi',
+                'variables' => 'register_number'
+            ],
+            [
+                'name' => 'Kode QR',
+                'variables' => 'qrcode'
+            ],
+            [
+                'name' => 'Nama Instansi',
+                'variables' => 'nama_instansi'
+            ],
+            [
+                'name' => 'Alamat Instansi',
+                'variables' => 'alamat_instansi'
+            ],
+            [
+                'name' => 'Telepon Instansi',
+                'variables' => 'telepon_instansi'
+            ],
+            [
+                'name' => 'Nama Aplikasi',
+                'variables' => 'nama_aplikasi'
+            ]
+        ];
+        if(count($form_register->hasStep) > 0)
+        {
+            foreach ($form_register->hasStep as $key => $value) {
+                if(!empty($value->metadata))
+                {
+                    $metadata = json_decode($value->metadata);
+                    foreach ($metadata as $d => $i) {
+                        if($i->type != 'title')
+                        {
+                            $var = [
+                                'name' => $i->label,
+                                'variables' => $i->field_name
+                            ];
+                            array_push($variables, $var);
+                        }
+                    }
+                }
+            }
+        }
+
+        $response = [
+            'status' => 'success',
+            'data' => $variables
+        ];
+
+        return response()->json($response);
+       
     }
 
 }

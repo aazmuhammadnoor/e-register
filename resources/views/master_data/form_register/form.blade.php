@@ -38,6 +38,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-2 col-form-label require">Kode Register</label>
+                            <div class="col-sm-4">
+                                {!! Form::text('register_code',$form_register->register_code,['class'=>'form-control form-control-sm','autocomplete'=>'off']) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Warna Background</label>
                             <div class="col-sm-1">
                                 <input type="color" name="color" value="{{ ($form_register->color) ? $form_register->color : '#33CABB' }}" class="form-control form-control-sm">
@@ -69,6 +75,12 @@
                                 <textarea class="form-control" id="editor1" name="info">{!! $form_register->info !!}</textarea>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Template Email Konfirmasi Pendaftaran</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="editor2" name="register_email_confirm">{!! $register_email_confirm !!}</textarea>
+                            </div>
+                        </div>
     				</div>
                     <footer class="card-footer text-left">
                         <button class="btn btn-label btn-primary btn-sm">
@@ -89,8 +101,7 @@
 @section('scripts')
     <script src="{{ asset('themes/vendor/ckeditor/ckeditor.js') }}"></script>
     <script>
-        $("#template").addClass('active');
-        $("#form").addClass('active');
         CKEDITOR.replace('editor1')
+        CKEDITOR.replace('editor2')
     </script>
 @endsection
