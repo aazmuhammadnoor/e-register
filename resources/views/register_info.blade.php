@@ -63,7 +63,7 @@
         <div class="container bg-white p-0">
             <div class="eregister-register-page">
                 <div class="row w-100 py-3">
-                    <div class="col-12 col-md-8 mx-auto">
+                    <div class="col-12 col-md-8 mx-auto pl-5 p-md-2">
                         <div class="eregister-form-title my-5">
                             <h4 class="current-color">{{ $form_register->form_name }}</h4>
                         </div>
