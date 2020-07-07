@@ -198,6 +198,7 @@ $(document).on('change','.administratif_provinsi',function(e)
 	let element_id = $(this).data('id');
 	let provinsi = $(this).val();
 	loadKabupaten(element_id,provinsi);
+	addressText(element_id);
 })
 
 $(document).on('change','.administratif_kabupaten',function(e)
@@ -205,6 +206,7 @@ $(document).on('change','.administratif_kabupaten',function(e)
 	let element_id = $(this).data('id');
 	let kabupaten = $(this).val();
 	loadKecamatan(element_id,kabupaten);
+	addressText(element_id);
 })
 
 $(document).on('change','.administratif_kecamatan',function(e)
@@ -212,6 +214,13 @@ $(document).on('change','.administratif_kecamatan',function(e)
 	let element_id = $(this).data('id');
 	let kecamatan = $(this).val();
 	loadKelurahan(element_id,kecamatan);
+	addressText(element_id);
+})
+
+$(document).on('change','.administratif_kelurahan',function(e)
+{
+	let element_id = $(this).data('id');
+	addressText(element_id);
 })
 
 $(document).on('keyup','.autocomplete_administratif',function(e)
