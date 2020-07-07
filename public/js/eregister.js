@@ -52,6 +52,17 @@ function stepform(id)
         }
         (active == 0) ? $(this).addClass('active') : '';
     });
+    $('#step-container-mobile li').each(function()
+    {
+        let this_id = $(this).data('id');
+        $(this).removeClass('active');
+        if(this_id == id)
+        {
+            $(this).addClass('active');
+            active = 1;
+        }
+        (active == 0) ? $(this).addClass('active') : '';
+    });
 	$.ajax({
 		url : url+'/form-step/'+id+'/detail',
 		type : 'POST',
@@ -745,6 +756,14 @@ function reviewForm()
 	        	$(this).addClass('active')
 	        }
 	    });
+	    $('#step-container-mobile li').each(function()
+	    {
+	        let this_id = $(this).data('id');
+	        $(this).removeClass('active');
+	        if(this_id != 'done'){
+	        	$(this).addClass('active')
+	        }
+	    });
 	    $('#form-step-content').html('');
 	    $('#button-form').hide();
 	    $('#button-review-form').show();
@@ -918,6 +937,10 @@ function finalForm()
 	    {
 	        $(this).addClass('active');
 	    });
+	    $('#step-container-mobile li').each(function()
+	    {
+	        $(this).addClass('active');
+	    });
 	    $('#form-step-content').html('');
 	    $('#button-form').hide();
 	    $('#button-review-form').hide();
@@ -1005,6 +1028,10 @@ function formFinish(xhr)
 			stepform(steps[0]);
 		}else{
 			$('#step-container li').each(function()
+		    {
+		        $(this).addClass('active');
+		    });
+		    $('#step-container-mobile li').each(function()
 		    {
 		        $(this).addClass('active');
 		    });

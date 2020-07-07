@@ -32,6 +32,10 @@
         #step-container .active a{
             color : {{ $form_register->color }} !important;
         }
+        #step-container-mobile .active a{
+            font-weight: bold;
+            text-decoration: underline !important;
+        }
         #step-container .active::after, #step-container .active::before{
             background-color: {{ $form_register->color }} !important;
             border-color: {{ $form_register->color }} !important;
@@ -43,6 +47,9 @@
           background-color: {{ $form_register->color }} !important;
         }
         .eregister-register-page::after{
+            background-color: {{ $form_register->color }} !important;
+        }
+        .nav-mobile{
             background-color: {{ $form_register->color }} !important;
         }
     </style>
@@ -61,8 +68,29 @@
     </div>
     <main class="eregister-main-container bg-primary bg-image current-bg-color" style="background-image: url('{{ url('/').\Storage::url($form_register->background) }}') !important">
         <div class="container bg-white p-0">
+            <div class="nav-mobile d-felx d-md-none">
+                <ul id="step-container-mobile" class="nav-mobile-list">
+                    @foreach($form_step as $key => $row)
+                        <li class='{{ ($key == 0) ? "active" : '' }}' id="form-step-{{ $row->id }}" data-id="{{ $row->id }}">
+                            <a href="#!" class="btn-form-step" data-id="{{ $row->id }}">
+                                {{ $row->step_name }}
+                            </a>
+                        </li>
+                    @endforeach
+                    <li data-id="review" id="form-step-review">
+                        <a href="#!" class="btn-form-step" data-id="review">
+                            Review
+                        </a>
+                    </li>
+                    <li data-id="done" id="form-step-done">
+                        <a href="#" class="btn-form-step" data-id="done">
+                            Selesai
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div class="eregister-register-page">
-                <div class="nav-left">
+                <div class="nav-left d-none d-md-block">
                     <ul id="step-container">
                         @foreach($form_step as $key => $row)
                             <li class='{{ ($key == 0) ? "active" : '' }}' id="form-step-{{ $row->id }}" data-id="{{ $row->id }}">

@@ -777,3 +777,42 @@ footer{
 		flex-direction: column;
 	}
 }
+
+.nav-mobile{
+	width: 100%;
+	padding: 1rem;
+	background-color: $primary-color;
+	ul{
+		list-style: none;
+		padding: 0px;
+		width: 100%;
+		li{
+			display: inline-block;
+			width: 30%;
+			a{
+				color: #FFF !important;
+			}
+		}
+	}
+}
+
+@include media-breakpoint-up(xs) {
+	.right-content{
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	.right-content{
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+}
+
+@include media-breakpoint-up(md) {
+	.right-content{
+		padding-left: 350px !important;
+		padding-right: 40px !important;
+	}
+}
