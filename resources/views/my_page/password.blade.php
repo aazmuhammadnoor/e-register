@@ -17,7 +17,7 @@
     <main class="eregister-main-container bg-primary bg-image current-bg-color" style="background-image: url('{{ asset('images/picture_home.png') }}') !important">
         <div class="container bg-white p-0">
             <div class="eregister-register-page">
-                <div class="nav-login">
+                <div class="nav-login d-none d-md-block">
                     @include('my_page.nav_login')
                 </div>
                 <div class="right-content">

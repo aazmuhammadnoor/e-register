@@ -826,3 +826,29 @@ footer{
 		padding-right: 40px !important;
 	}
 }
+
+.nav-link-mobile{
+	position: fixed;
+	display: none !important;
+	top: 0px;
+	right: 0px;
+	width: 100%;
+	height: 100vh;
+	background-color: unquote($primary-color+'F2');
+	z-index: 1500;
+	padding: 2rem;
+}
+.nav-link-mobile-open{
+	display: block !important;
+}
+.nav-link-container{
+	list-style: none;
+	color: #FFF;
+	padding: 0px;
+	li{
+		padding: 0.5rem;
+		a{
+			color: #FFF;
+		}
+	}
+}

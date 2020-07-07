@@ -767,5 +767,32 @@ footer {
     padding-right: 40px !important;
   }
 }
+.nav-link-mobile {
+  position: fixed;
+  display: none !important;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100vh;
+  background-color: #009F8FF2;
+  z-index: 1500;
+  padding: 2rem;
+}
+
+.nav-link-mobile-open {
+  display: block !important;
+}
+
+.nav-link-container {
+  list-style: none;
+  color: #FFF;
+  padding: 0px;
+}
+.nav-link-container li {
+  padding: 0.5rem;
+}
+.nav-link-container li a {
+  color: #FFF;
+}
 
 /*# sourceMappingURL=style.css.map */

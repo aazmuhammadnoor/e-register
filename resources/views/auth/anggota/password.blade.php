@@ -3,10 +3,10 @@
 @section('content')
     <main class="container-fluid bg-primary eregister-main-container">
         <div class="eregister-homepage">
-           <div class="left-content col-md-7">
-               <img src="{{ asset('images/picture_home.png') }}">
+           <div class="left-content col-1 col-md-7">
+               <img src="{{ asset('images/picture_home.png') }}" height="100%">
            </div>
-           <div class="right-content col-md-4">
+           <div class="right-content col-11 col-md-4">
            		@include('flash::message')
            		@if(\Session::has('alert'))
                     <div class="alert alert-danger">

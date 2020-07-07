@@ -31,6 +31,7 @@
                 </div>
               </a>
               @include('layouts.public_nav')
+              <a href="#!" script="javascript:void(0)" class="d-flex d-md-none btn-menu-mobile"><i class="icon ti-menu"></i></a>
           </div>
         </nav>
     </header>
@@ -79,6 +80,11 @@
         {
             return '{{ url('/') }}/'+url;
         }
+
+        $(document).on('click','.btn-menu-mobile',function(e)
+        {
+          $('#nav-link-mobile').toggleClass('nav-link-mobile-open');
+        })
         
         /**
          * open register

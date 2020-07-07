@@ -4,8 +4,8 @@
     <main class="container-fluid bg-primary eregister-main-container">
         @if($form_register)
         <div class="eregister-homepage">
-           <div class="left-content col-md-7">
-               <img src="{{ asset('images/picture_home.png') }}">
+           <div class="left-content col-1 col-md-7">
+               <img src="{{ asset('images/picture_home.png') }}" height="100%">
            </div>
            <div class="right-content col-mc-4">
                <h2 class="text-uppercase">{{ $form_register->form_name }}</h2>
@@ -16,7 +16,7 @@
         </div>
         @else
         <div class="eregister-homepage">
-           <div class="left-content col-md-7">
+           <div class="left-content col-11 col-md-7">
                <img src="{{ asset('images/picture_home.png') }}">
            </div>
            <div class="right-content col-mc-4">
