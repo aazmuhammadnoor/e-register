@@ -79,9 +79,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Sumarry</label>
+                            <label class="col-sm-2 col-form-label">Summary</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" name="info">{!! $form_register->sumarry !!}</textarea>
+                                <textarea class="form-control" name="summary">{!! $form_register->summary !!}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
