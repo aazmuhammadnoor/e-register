@@ -747,10 +747,18 @@ footer {
   padding-right: 20px !important;
 }
 
+.eregister-register-page:after {
+  content: none;
+}
+
 @media (min-width: 576px) {
   .right-content {
     padding-left: 20px !important;
     padding-right: 20px !important;
+  }
+
+  .eregister-register-page:after {
+    content: "";
   }
 }
 @media (min-width: 768px) {

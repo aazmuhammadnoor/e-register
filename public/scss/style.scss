@@ -801,12 +801,22 @@ footer{
 		padding-left: 20px !important;
 		padding-right: 20px !important;
 	}
+	.eregister-register-page{
+		&:after{
+			content: none;
+		}
+	}
 }
 
 @include media-breakpoint-up(sm) {
 	.right-content{
 		padding-left: 20px !important;
 		padding-right: 20px !important;
+	}
+	.eregister-register-page{
+		&:after{
+			content: '';
+		}
 	}
 }
 
