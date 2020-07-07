@@ -1,63 +1,38 @@
-@extends('layouts.public')
-
-@section('topbar')
-    @include('layouts.topbar.public')
-@endsection
+@extends('layouts.new_layout')
 
 @section('content')
-    <header class="header header-inverse bg-img" id="home-header" style="background-image: url({{ asset('uploads/'.$identitas->bg_login.'') }})" data-overlay="8">
-        <div class="header-info" style="justify-content:center;">
-        <h1 class="header-title text-center" style="display: block;">
-                <strong>LOGIN</strong>
-                <small>{{ strtoupper($identitas->instansi) }}</small>
-            </h1>
+    <main class="container-fluid bg-primary eregister-main-container">
+        <div class="eregister-homepage">
+           <div class="left-content col-md-7">
+               <img src="{{ asset('images/picture_home.png') }}">
+           </div>
+           <div class="right-content col-md-4">
+               <h2>Login</h2>
+               <p>Masukkan email anda yang terdaftar</p>
+               @include('flash::message')
+               @if(\Session::has('alert'))
+                    <div class="alert alert-danger">
+                        <div>{{Session::get('alert')}}</div>
+                    </div>
+                @endif
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger">
+                        {{ $error }}
+                    </div>
+                    @endforeach
+                @endif
+               <form method="POST" action="{{ url('login/post') }}" class="form w-100">
+               		{{ csrf_field() }}
+               		<div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+		              <input type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" />
+		            </div>
+	               <button class="btn btn-secondary" type="submit">MASUK</button>
+           	   </form>
+           </div>
         </div>
-    </header>
-    <div class="main-content bg-pale-secondary">
-        <div class="row">
-            <div class="col-md-12 center-vh">
-                <div class="card bg-white w-400px mb-3">
-                    <div class="card-body">
-                        @include('flash::message')
-						            @if(\Session::has('alert'))
-						                <div class="alert alert-danger">
-						                    <div>{{Session::get('alert')}}</div>
-						                </div>
-												@endif
-						            @if ($errors->any())
-						                @foreach ($errors->all() as $error)
-						                <div class="alert alert-danger">
-						                    {{ $error }}
-						                </div>
-						                @endforeach
-						            @endif
-												<form class="form-type-material" method="POST" action="{{ url()->current() }}">
-									            	{{ csrf_field() }}
-										            <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
-										              <input type="text" class="form-control" name="username" value="{{ old('username') }}"/>
-										              <label for="username">Username / Email</label>
-										            </div>
-										            <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
-										              <input type="password" class="form-control" id="password" name="password"/>
-										              <label for="password">Password</label>
-										            </div>
-										            <div class="form-group flexbox">
-										              <label class="custom-control custom-checkbox">
-										                <input type="checkbox" class="custom-control-input" name="remember" {{ old('remember') ? 'checked' : '' }}>
-										                <span class="custom-control-indicator"></span>
-										                <span class="custom-control-description">Ingat Saya</span>
-										              </label>
-										              <a class="text-muted hover-primary fs-13" href="{{ route('password.reset') }}">Lupa password?</a>
-										            </div>
-											        <div class="form-group">
-											          <button class="btn btn-bold btn-block btn-primary" type="submit">Login</button>
-											        </div>
-							        		</form>
-							        		<p>Tidak menerima email aktivasi ? <a href="{{ url('anggota/aktivasi_ulang') }}" class="text-warning">Kirim Ulang Kode Aktivasi</a></p>
-										</div>
-								</div>
-						</div>
-				</div>
-		</div>
-    @include('layouts.footer')
+    </main>
+@endsection
+
+@section('js')
 @endsection

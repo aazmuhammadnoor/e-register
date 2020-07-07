@@ -46,9 +46,9 @@ return [
             'provider' => 'users',
         ],
 
-        'pendaftar' => [
+        'registant' => [
             'driver' => 'session',
-            'provider' => 'pendaftars',
+            'provider' => 'registants',
         ],
         
         'pendaftar-api' => [
@@ -81,9 +81,9 @@ return [
             'model' => App\Models\User::class,
         ],
         
-        'pendaftars' => [
+        'registants' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Pendaftar::class,
+            'model' => App\Models\Registant::class,
         ],
 
         // 'users' => [

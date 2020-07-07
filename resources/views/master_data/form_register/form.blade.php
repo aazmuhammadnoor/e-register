@@ -70,6 +70,21 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Utama</label>
+                            <div class="col-sm-10">
+                                 {!! Form::radio('utama',1,($form_register->utama == 1) ? true : false) !!}
+                                    Ya
+                                 {!! Form::radio('utama',0,($form_register->utama == 0) ? true : false) !!}
+                                    Tidak
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Sumarry</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="info">{!! $form_register->sumarry !!}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Info Tambahan</label>
                             <div class="col-sm-10">
                                 <textarea class="form-control" id="editor1" name="info">{!! $form_register->info !!}</textarea>

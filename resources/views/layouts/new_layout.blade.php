@@ -42,12 +42,25 @@
                             @endforeach
                         </ul>
                     </li>
-                    <li><a href="#!" class="main-link">
+                    {{-- <li><a href="{{ url('mypage/check') }}" class="main-link">
                         Cek Pendaftaran
-                    </a></li>
-                    <li><a href="{{ url('/login') }}" class="main-link">
-                        Login
-                    </a></li>
+                    </a></li> --}}
+                    @if(!\Auth::guard('registant')->user())
+                      <li><a href="{{ url('/login') }}" class="main-link">
+                          Login
+                      </a></li>
+                    @else
+                      <li><a href="#" class="main-link"><i class="icon ti-user"></i></a>
+                          <ul>
+                             <li><a href="{{ url('/mypage') }}">
+                                My Page
+                            </a></li>
+                            <li><a href="{{ url('/logout') }}">
+                              Logout
+                            </a></li>
+                          </ul>
+                      </li>
+                    @endif
                 </ul>
               </div>
           </div>

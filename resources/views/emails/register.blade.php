@@ -64,7 +64,7 @@
             border : 0px;
         }
         .body .button table tr td{
-            width: 50%;
+            width: auto;
             padding: 10px;
             text-align: center;
         }

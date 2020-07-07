@@ -98,6 +98,7 @@ class FormRegisterController extends Controller
         $this->validate($r, [
             'form_name'=>'required',
             'color'=>'required',
+            'utama' => 'required'
         ]);
 
         $form_register = new FormRegister;
@@ -109,6 +110,13 @@ class FormRegisterController extends Controller
         $form_register->register_email_confirm = $r->register_email_confirm;
         $form_register->url = $this->url();
         $form_register->is_active = 0;
+        $form_register->summary = $r->summary;
+        $form_register->utama = $r->utama;
+
+        if($r->utama == 1)
+        {
+            $all_register = FormRegister::update(['utama' => 0]);
+        }
 
         if($r->hasFile('template_register')){
             $template = $r->file('template_register');
@@ -163,6 +171,13 @@ class FormRegisterController extends Controller
         $form_register->color = $r->color;
         $form_register->info = $r->info;
         $form_register->register_email_confirm = $r->register_email_confirm;
+        $form_register->summary = $r->summary;
+        $form_register->utama = $r->utama;
+
+        if($r->utama == 1)
+        {
+            $all_register = FormRegister::where('id','!=',$form_register->id)->update(['utama' => 0]);
+        }
         if($r->hasFile('template_register')){
             if(file_exists(storage::path($form_register->template_register)))
             {

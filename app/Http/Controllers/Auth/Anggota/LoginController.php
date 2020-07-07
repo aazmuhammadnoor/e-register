@@ -38,7 +38,6 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->username = $this->findUsername();
     }
 
     /**
@@ -58,7 +57,7 @@ class LoginController extends Controller
      */
     public function username()
     {
-        return $this->username;
+        return 'email';
     }
 
     /**
@@ -68,7 +67,7 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('pendaftar');
+        return Auth::guard('registant');
     }
 
     protected function hasTooManyLoginAttempts(Request $request)
@@ -86,24 +85,38 @@ class LoginController extends Controller
      */
     protected function credentials(Request $request)
     {
-        $request->request->add(['is_aktif' => '1']);
-        return $request->only($this->username(), 'password', 'is_aktif');
+        //$request->request->add(['is_aktif' => '1']);
+        if(!$request->has('auth'))
+        {
+            abort('404');
+        }else{
+
+            if($request->auth == 'otp')
+            {
+                return $request->only($this->username(), 'otp');
+            }else{
+                return $request->only($this->username(), 'password');
+            }
+        }
     }
 
-    /**
-     * Get the login username to be used by the controller.
-     *
-     * @return string
-     */
-    public function findUsername()
+    protected function validateLogin(Request $request)
     {
-        $login = request()->input('username');
- 
-        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
- 
-        request()->merge([$fieldType => $login]);
- 
-        return $fieldType;
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'auth' => 'required|string',
+        ]);
+
+        if($request->auth == 'otp')
+        {
+            $this->validate($request, [
+                'otp' => 'required|string',
+            ]);
+        }else{
+            $this->validate($request, [
+                'password' => 'required|string',
+            ]);
+        }
     }
 
 }

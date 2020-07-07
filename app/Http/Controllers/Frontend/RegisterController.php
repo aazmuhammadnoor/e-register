@@ -15,6 +15,7 @@ use App\Models\TempRegisterData;
 use App\Models\Registant;
 use App\Models\Register;
 use App\Models\RegisterData;
+use App\Models\RegisterFile;
 
 use Mail;
 use App\Jobs\SendRegisterJob;
@@ -173,11 +174,27 @@ class RegisterController extends Controller
                }
             }
         }
+        $temp_register_files = TempRegisterFiles::where('temp_register',$temp_register->id)->get();
+        foreach($temp_register_files as $row)
+        {
+            $register_file = new RegisterFile;
+            $register_file->id = $row->id;
+            $register_file->register = $register->id;
+            $register_file->form_step = $row->form_step;
+            $register_file->field_name = $row->field_name;
+            $register_file->file = $row->file;
+            $register_file->size = $row->size;
+            $register_file->filename = $row->filename;
+            $register_file->ext = $row->ext;
+            $register_file->save();
+        }
 
         //delete temp data
         TempRegisterFiles::where('temp_register',$temp_register->id)->delete();
         TempRegisterData::where('temp_register',$temp_register->id)->delete();
         TempRegister::where('id',$temp_register->id)->delete();
+
+        $this->createBukti($register);
 
         //send email registant
         $job = (new SendRegisterJob($register));
@@ -323,6 +340,7 @@ class RegisterController extends Controller
             $template = "uploads/".$identitas->bukti_pendaftaran;
         }
         $qrcode = generateQR($register);
+        $qr_location = locationQR($register);
 
         $render = new \App\Workflow\TemplateProccessorCustom($template);
         $render->setValue('date_time', $register->updated_at->format('d F Y H:i'));
@@ -380,9 +398,21 @@ class RegisterController extends Controller
                             $render->setValue($this_field->field_name,$values);
                             break;
                         case 'file':
-                            $path = str_replace('/storage/','', $this_value);
-                            $path = \Storage::path('public/'.$path);
-                            $render->setImg($this_field->field_name,array('src' => $path,'swh'=>'180'));
+                            $ext = ['jpg','jpeg','png','bmp'];
+                            $register_file = RegisterFile::where('register',$register->id)
+                                                        ->where('id',$this_value)
+                                                        ->first();
+                            if($register_file != null)
+                            {
+                                if(in_array($register_file->ext,$ext))
+                                {
+                                    $path = \Storage::path($register_file->file);
+                                    if(file_exists($path))
+                                    {
+                                        $render->setImg($this_field->field_name,array('src' => $path,'swh'=>'180'));
+                                    }
+                                }
+                            }
                             break;
                         case 'address':
                         case 'address_autocomplete':
@@ -409,6 +439,7 @@ class RegisterController extends Controller
         if($konversi)
         {
             $register->bukti_pendaftaran = $path.'/'.str_slug($register->register_number).'.pdf';
+            $register->qrcode = $qr_location;
             $register->save();
         }
     }

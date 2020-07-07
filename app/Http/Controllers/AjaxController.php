@@ -163,7 +163,7 @@ class AjaxController extends Controller
 				foreach($metadata as $value){
 					if($value->type == 'file')
 					{
-						array_push($files, $value->field_name);
+						array_push($files, $value->label);
 					}
 				}
 			}

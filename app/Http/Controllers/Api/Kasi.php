@@ -11,7 +11,6 @@ use App\Models\User;
 
 class Kasi extends Controller{
 
-  use TraitSurat;
 
   //kasi.approval.pemeriksaan.berkas
   //kasi.approval.cetak.sk

@@ -575,6 +575,37 @@ footer {
   max-width: 300px;
   float: right;
 }
+.eregister-register-page .nav-login {
+  position: fixed;
+  top: 80px;
+  width: 300px;
+  box-shadow: 3px 0px 2px -2px #ced4da;
+  background-color: #FFFFFF;
+  padding: 20px;
+  padding-top: 30px;
+  padding-left: 50px;
+  min-height: calc(100vh - 180px);
+}
+.eregister-register-page .nav-login ul {
+  padding: 0px;
+  padding-left: 30px;
+  list-style: none;
+}
+.eregister-register-page .nav-login ul li {
+  margin-bottom: 2rem;
+  position: relative;
+}
+.eregister-register-page .nav-login ul .active:after {
+  border: 2px solid #009F8F;
+  background-color: #009F8F;
+}
+.eregister-register-page .nav-login ul .active:before {
+  background-color: #009F8F;
+}
+.eregister-register-page .nav-login ul .active a {
+  color: #009F8F;
+  font-weight: bold;
+}
 
 .autocomplete {
   position: relative;
@@ -649,6 +680,48 @@ footer {
 .eregister-table tr td ul {
   padding: 0px;
   padding-left: 15px;
+}
+
+.partitioned {
+  padding-left: 7px;
+  letter-spacing: 28px;
+  border: 0;
+  background-image: linear-gradient(to left, #FFF 70%, #009F8F 0%);
+  background-position: bottom;
+  background-size: 50px 1px;
+  background-repeat: repeat-x;
+  background-position-x: 35px;
+  background-color: inherit;
+  width: 300px;
+  font-size: 40px;
+  font-weight: bold;
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
+.mypage-lists {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  position: relative;
+}
+.mypage-lists .line {
+  position: absolute;
+  width: 3px;
+  height: 90%;
+  left: 10px;
+  top: 5px;
+  background-color: #009F8F;
+}
+.mypage-lists .nav {
+  display: flex;
+  flex-direction: column;
 }
 
 /*# sourceMappingURL=style.css.map */

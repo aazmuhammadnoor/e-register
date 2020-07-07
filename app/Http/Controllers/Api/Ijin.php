@@ -11,7 +11,6 @@ use App\Models\User;
 
 class Ijin extends Controller{
 
-    use TraitSurat;
 
     protected function isValidUser($id){
         $user = User::find($id);

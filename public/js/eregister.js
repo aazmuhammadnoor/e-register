@@ -104,7 +104,7 @@ function create_input_date(step,id,label,field_name,value,column_length,required
 }
 
 function create_input_file(step,id,label,field_name,value,column_length,required){
-	let form = `<div class="eregister-form col-md-12">
+	let form = `<div class="eregister-form col-md-12" id="eregister_input_file_${id}">
 	                <label class="${required}">${label}</label>
 	                <input type="hidden" name="${field_name}">
 	                <form class="dropzone current-border-color" id="eregister_dropzone_${id}" data-id="${id}" data-field_name="${field_name}">
@@ -218,8 +218,8 @@ function create_administratif_autocomplete(step,id,label,field_name,value,requir
 	let this_value = '';
 	if(value.length > 0)
 	{
-		this_text = (value[0] != 'null') ? value[0] : "";
-		this_value = (value[1] != 'null') ? value[1] : "";
+		this_text = (value[1] != 'null' && value[1] != null) ? value[1] : "";
+		this_value = (value[0] != 'null' && value[0] != null) ? value[0] : "";
 	}
 	let form = `<div class="eregister-form col-md-12 autocomplete">
                     <label class="${required}">${label}</label>
@@ -452,7 +452,9 @@ function dropzoneLoad(d,i,step)
 	      				thisDropzone = Dropzone.forElement("#eregister_dropzone_"+d);
 						var mockFile = {name: xhr.filename, size : xhr.size};
 						thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-						thisDropzone.options.thumbnail.call(thisDropzone, mockFile, url+xhr.path);
+						thisDropzone.options.thumbnail.call(thisDropzone, mockFile, default_img());
+
+						$('#eregister_input_file_'+d).append(`<a href="${url_path_file(xhr.path,this_token())}" class="current-color" target="_blank"><i class="icon ti-download"></i> Preview</a>`)
 	      			}
 				}
 			});
@@ -881,7 +883,7 @@ function renderFile(d,label,field_name,data)
 			this_val = i.path
 		}
 	});
-	let download = (this_val != null) ? `<a href="${url_path_file(this_val)}" class="current-color" target="_blank"><i class="icon ti-download"></i> Preview</a>` : `<i>Belum ada unggahan</i>`;
+	let download = (this_val != null) ? `<a href="${url_path_file(this_val,this_token())}" class="current-color" target="_blank"><i class="icon ti-download"></i> Preview</a>` : `<i>Belum ada unggahan</i>`;
 	let content = `<tr>
                     <th width="25%">${label}</th>
                     <td>: ${download}</td>
@@ -923,7 +925,7 @@ function finalForm()
 		$('#form-step-title').text('Final Confirm');
 
 		let content = `<div class="col-8 mx-auto mb-3">
-                            <input type="email" name="email" id="email" placeholder="E-mail" required class="form-control">
+                            <input type="email" name="email" id="email" placeholder="E-mail" required class="form-control" value='${this_email}'>
                         </div>
                         <div class="col-8 mx-auto mb-3 text-center">
                             <div class="eregister-checkbox-container mx-auto">
@@ -1032,4 +1034,62 @@ function finalAlert(title,message)
         title: title,
         content: message
     });
+}
+
+$(document).on('click','.btn-form-cancel',function(e)
+{
+	$.confirm({
+	    title: 'Batalkan Registrasi',
+	    content: 'Anda akan membatalkan registrasi, semua data yang sudah dimasukkan akan hilang',
+	    buttons: {
+	        cancel: function () {
+	        	
+	        },
+	        Ya: function(){
+	            cancelForm();
+	        }
+	    }
+	});
+
+	/*$.confirm({
+	    title: 'Confirm!',
+	    content: 'Simple confirm!',
+	    buttons: {
+	        confirm: function () {
+	            $.alert('Confirmed!');
+	        },
+	        cancel: function () {
+	            $.alert('Canceled!');
+	        },
+	        somethingElse: {
+	            text: 'Something else',
+	            btnClass: 'btn-blue',
+	            keys: ['enter', 'shift'],
+	            action: function(){
+	                $.alert('Something else?');
+	            }
+	        }
+	    }
+	});*/
+})
+
+function cancelForm()
+{
+	$.ajax({
+		url : url_cancel(),
+		type : 'POST',
+		headers : {
+    		'X-CSRF-TOKEN': csrf_token
+    	},
+    	data : {
+    		token : this_token(),
+    		key : this_key()
+    	},
+    	beforeSend : function(e){},
+    	error : function(e){},
+    	success : function(e){
+    		stepform(steps[0]);
+    		localStorage.removeItem("eregister_temp"); 
+    	}
+	})
 }

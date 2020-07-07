@@ -11,7 +11,6 @@ use App\Models\User;
 
 class Kabid extends Controller{
 
-  use TraitSurat;
 
   function Dashboard(User $user){
     $dinas_permohonan = null;

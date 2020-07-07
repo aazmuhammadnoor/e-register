@@ -1219,6 +1219,15 @@ if(!function_exists('generateQR'))
     }
 }
 
+if(!function_exists('locationQR'))
+{
+    function locationQR($register)
+    {
+        $qrcode_image = str_slug($register->register_number).".png";
+        return 'qr_register/'.$register->thisFormRegister->url."/".$qrcode_image;
+    }
+}
+
 if(!function_exists('renderMeta'))
 {
     function renderMeta($register,$step,$field_name,$type)
@@ -1228,19 +1237,6 @@ if(!function_exists('renderMeta'))
                                                 ->first();
         $data = json_decode($register_data->data);
 
-        /*<option value="text" hidden>Tipe</option>
-                                <option value="title">Judul</option>
-                                <option value="text">Text</option>
-                                <option value="number">Number</option>
-                                <option value="date">Tanggal</option>
-                                <option value="select">Dropdown</option>
-                                <option value="radio">Choice</option>
-                                <option value="checkbox">Checklis</option>
-                                <option value="textarea">Textbox</option>
-                                <option value="multitext">Multi Input</option>
-                                <option value="file">Upload</option>
-                                <option value="address">Alamat Administratif</option>
-                                <option value="address_autocomplete">AutoComplete Alamat Administratif </option>*/
         switch ($type) {
             case 'text':
             case 'number':
@@ -1257,7 +1253,7 @@ if(!function_exists('renderMeta'))
                 return renderArray($field_name,$data);
             break;
             case 'file':
-                return renderFile($field_name,$data);
+                return renderFile($field_name,$data,$register);
             break;
             case 'address':
             case 'address_autocomplete':
@@ -1314,7 +1310,7 @@ if(!function_exists('renderArray'))
 
 if(!function_exists('renderFile'))
 {
-    function renderFile($field_name,$data)
+    function renderFile($field_name,$data,$register)
     {   
         $value = '';
         foreach($data as $row)
@@ -1323,7 +1319,8 @@ if(!function_exists('renderFile'))
             {
                 if(!empty($row->path))
                 {
-                    $value = "<a href='' class='current-color'><i class='icon ti-download'></i> Download</a>";
+                    $url = route('admin.register.file',[$register->id,$row->path]);
+                    $value = "<a href='".$url."' class='current-color' target='_blank'><i class='icon ti-download'></i> Download</a>";
                 }else{
                     $value = "<i>Belum ada unggahan</i>";
                 }
@@ -1355,6 +1352,150 @@ if(!function_exists('renderDate'))
 if(!function_exists('renderAddress'))
 {
     function renderAddress($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    if(count($row->value) > 1)
+                    {
+                        $value = $row->value[1];
+                    }
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+/*-- render public --*/
+if(!function_exists('renderPublicMeta'))
+{
+    function renderPublicMeta($register,$step,$field_name,$type)
+    {
+       $register_data = \App\Models\RegisterData::where('register',$register->id)
+                                                ->where('form_step',$step->id)
+                                                ->first();
+        $data = json_decode($register_data->data);
+
+        switch ($type) {
+            case 'text':
+            case 'number':
+            case 'select':
+            case 'radio':
+            case 'textarea':
+                return renderPublicText($field_name,$data);
+            break;
+            case 'date':
+                return renderPublicDate($field_name,$data);
+            break;
+            case 'checkbox':
+            case 'multitext':
+                return renderPublicArray($field_name,$data);
+            break;
+            case 'file':
+                return renderPublicFile($field_name,$data,$register);
+            break;
+            case 'address':
+            case 'address_autocomplete':
+                return renderPublicAddress($field_name,$data);
+            break;
+            default:
+                # code...
+                break;
+        }
+    }
+}
+
+if(!function_exists('renderPublicText'))
+{
+    function renderPublicText($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    $value = $row->value;
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+if(!function_exists('renderPublicArray'))
+{
+    function renderPublicArray($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    $value = '<ul>';
+                    foreach ($row->value as $d => $item) {
+                       $value .= '<li>'.$item.'</li>';
+                    }
+                    $value .= '</ul>';
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+if(!function_exists('renderPublicFile'))
+{
+    function renderPublicFile($field_name,$data,$register)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->path))
+                {
+                    $url = route('mypage.register.file',[$register->id,$row->path]);
+                    $value = "<a href='".$url."' class='current-color' target='_blank'><i class='icon ti-download'></i> Download</a>";
+                }else{
+                    $value = "<i>Belum ada unggahan</i>";
+                }
+            }
+        }
+        return $value;
+    }
+}
+
+if(!function_exists('renderPublicDate'))
+{
+    function renderPublicDate($field_name,$data)
+    {   
+        $value = '';
+        foreach($data as $row)
+        {
+            if($field_name == $row->field_name)
+            {
+                if(!empty($row->value))
+                {
+                    $value = $row->value;
+                }
+            }
+        }
+        return \Carbon\Carbon::parse($value)->format('d F Y');
+    }
+}
+
+if(!function_exists('renderPublicAddress'))
+{
+    function renderPublicAddress($field_name,$data)
     {   
         $value = '';
         foreach($data as $row)

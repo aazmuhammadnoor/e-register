@@ -18,6 +18,8 @@ Route::get('/', 'PublicController@index')->name('home');
 Route::get('/register', function () {
     abort('404');
 });
+Route::post('file/view','Frontend\TempRegisterController@viewFile')->name('file.view');
+
 Route::post('register-info', 'AjaxController@registerInfo')->name('register.info');
 Route::get('register/{url}', 'Frontend\RegisterController@index')->name('register');
 Route::get('register/{url}/info', 'Frontend\RegisterController@info')->name('register.info');
@@ -35,15 +37,59 @@ Route::post('form-step/{formStep}/detail','Frontend\FormStepController@detail')-
 Route::post('file/{url}/{form_step}/upload','Frontend\TempRegisterController@uploadFile')->name('file.upload');
 Route::post('file/{url}/{form_step}/remove','Frontend\TempRegisterController@removeFile')->name('file.remove');
 Route::post('file/{url}/{form_step}/check','Frontend\TempRegisterController@checkFile')->name('file.check');
+
 Route::post('register/{url}/{form_step}/submit','Frontend\TempRegisterController@submit')->name('register.submit');
 Route::post('register/{url}/{form_step}/step-info','Frontend\TempRegisterController@stepInfo')->name('register.step.info');
 Route::post('register/{url}/review','Frontend\TempRegisterController@review')->name('register.review');
+Route::get('register/{url}/{temp_file}/{token}/preview', 'Frontend\TempRegisterController@previewFile')->name('register.file.view');
 Route::post('register/{url}/final','Frontend\RegisterController@submit')->name('register.final');
+Route::post('register/{url}/cancel','Frontend\TempRegisterController@cancel')->name('register.cancel');
+
+Route::get('login/post', function () {
+    abort('404');
+});
+Route::get('login/otp', function () {
+    abort('404');
+});
+Route::post('login/post','LoginController@index')->name('login.post');
+Route::post('login/check/otp','LoginController@otpCheck')->name('login.otp.check');
+Route::get('login/otp/{email}','LoginController@otp')->name('login.otp');
+Route::post('login/with-otp','LoginController@loginWithOtp');
+
+Route::get('login/key/{email}','LoginController@password')->name('login.password');
+Route::post('login/key','Auth\Registant\LoginController@login')->name('login.post.otp');
+
+Route::group([ 'prefix' => 'mypage'], function(){
+
+    Route::get('/','Frontend\MyPageController@index')->name('mypage');
+    Route::get('register/{url}/{register}','Frontend\MyPageController@register')->name('mypage.register');
+    Route::get('register/{register}/{register_file}/file','Frontend\MyPageController@file')->name('mypage.register.file');
+    Route::get('change-password','Frontend\MyPageController@changePassword')->name('mypage.change.password');
+    Route::post('change-password','Frontend\MyPageController@updatePassword')->name('mypage.update.password');
+
+});
+
 
 Route::get('/email', function () {
     return view('email');
 });
 
+Route::get('get-file', function (\Illuminate\Http\Request $r)
+{
+    $path = \Storage::path($r->file);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
 
 
 Route::get('storage/{filename}', function ($filename)
@@ -131,6 +177,8 @@ Route::get('download_file/{filename}', function ($template,$filename)
 
     return $response;
 });
+
+
 
 Route::get('admin/dashboard/list/{posisi}','HomeController@Lists');
 Route::get('admin/dashboard/view/{per}','HomeController@DoView');
@@ -332,6 +380,8 @@ Route::group([ 'prefix' => 'admin'], function(){
     Route::get('registrasi','RegisterController@index')->name('admin.register');
     Route::get('registrasi/{register}/detail','RegisterController@detail')->name('admin.register.detail');
     Route::post('registrasi/{form_register}/lists','RegisterController@lists')->name('admin.register.lists');
+    Route::get('registrasi/{register}/{register_file}/file','RegisterController@file')->name('admin.register.file');
+    Route::post('registrasi/{register}/print','RegisterController@print')->name('admin.register.print');
 
 
 });

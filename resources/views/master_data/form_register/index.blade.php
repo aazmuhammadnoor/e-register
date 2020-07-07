@@ -84,6 +84,9 @@
                                             @else
                                                 <label class="label bg-danger">Tidak Aktif</label>
                                             @endif
+                                            @if($row->utama == 1)
+                                                <label class="label bg-primary">Utama</label>
+                                            @endif
                                         </div>
                                         <div>
                                              <a href="{{ route('admin.form.register.show',[$row->id]) }}" class="btn btn-warning btn-sm" data-provide="tooltip" data-original-title="Kelola Form">

@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li data-id="done" id="form-step-done">
-                            <a href="#!" class="btn-form-step" data-id="done">
+                            <a href="#" class="btn-form-step" data-id="done">
                                 Selesai
                             </a>
                         </li>
@@ -104,8 +104,8 @@
                             <div class="col-12">
                                 <div class="d-flex flex-row justify-content-between">
                                     <div>
-                                        <button class="btn btn-outline-dark">Batal</button>
-                                        <a href="#!" class="btn btn-outline-danger" id="button-reset-form">Reset</a>
+                                        <a href="#" script="javascript:void(0)" class="btn btn-outline-dark btn-form-cancel">Batal</a>
+                                        <button type="reset" class="btn btn-outline-danger" id="button-reset-form">Reset</button>
                                     </div>
                                     <button class="btn btn-secondary text-white current-btn">Simpan</button>
                                 </div>
@@ -115,7 +115,7 @@
                             <div class="col-12">
                                 <div class="d-flex flex-row justify-content-between">
                                     <div>
-                                        <button class="btn btn-outline-dark">Batal</button>
+                                        <a href="#" script="javascript:void(0)" class="btn btn-outline-dark btn-form-cancel">Batal</a>
                                     </div>
                                     <a href="#!" script="javascript:void(0)" class="btn btn-secondary text-white current-btn" id="button-review-form">Lanjut</a>
                                 </div>
@@ -125,7 +125,7 @@
                             <div class="col-12">
                                 <div class="d-flex flex-row justify-content-between">
                                     <div>
-                                        <button class="btn btn-outline-dark">Batal</button>
+                                        <a href="#" script="javascript:void(0)" class="btn btn-outline-dark btn-form-cancel">Batal</a>
                                     </div>
                                     <a href="#!" script="javascript:void(0)" class="btn btn-secondary text-white current-btn" id="button-final">Simpan</a>
                                 </div>
@@ -145,6 +145,7 @@
 
         var form_code = '{{ $form_register->url }}';
         var steps = [];
+        var this_email = '{{ (!\Auth::guard('registant')->user()) ? '' : \Auth::guard('registant')->user()->email  }}';
     @foreach ($form_step as $row)
         steps.push({{ $row->id }});
     @endforeach
@@ -179,13 +180,21 @@
         {
             return url+'/register/{{ $form_register->url }}/'+'review';
         }
-        function url_path_file(path)
+        function url_path_file(path,token)
         {
-            return url+path;
+            return url+'/register/{{ $form_register->url }}/'+path+'/'+token+'/preview';
         }
         function url_final()
         {
             return '{{ route('register.final',[$form_register->url]) }}';
+        }
+        function default_img()
+        {
+            return '{{ asset('images/previrew_dropzone.png') }}';
+        }
+        function url_cancel()
+        {
+            return '{{ route('register.cancel',[$form_register->url]) }}';
         }
         var now = '{{ \Carbon\Carbon::now()->format('Y-m-d') }}';
     </script>

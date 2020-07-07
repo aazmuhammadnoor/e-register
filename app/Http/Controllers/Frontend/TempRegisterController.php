@@ -164,14 +164,14 @@ class TempRegisterController extends Controller
 
     	/* -- uploading and saving*/
 
-    	$path = \Storage::putFile('public/upload_register/'.$form_register->url.'/'.$temp_register->token,$r->file('file'));
+    	$path = \Storage::putFile('upload_register/'.$form_register->url.'/'.$temp_register->token,$r->file('file'));
     	$temp_register_file->temp_register = $temp_register->id;
     	$temp_register_file->form_step = $form_step->id;
     	$temp_register_file->field_name = $r->field_name;
     	$temp_register_file->size = $r->file('file')->getClientSize();
     	$temp_register_file->filename = $r->file('file')->getClientOriginalName();
     	$temp_register_file->ext = $r->file('file')->getClientOriginalExtension();
-    	$temp_register_file->file = \Storage::url($path);
+    	$temp_register_file->file = $path;
 
     	try {
     		$temp_register_file->save();
@@ -179,7 +179,7 @@ class TempRegisterController extends Controller
     			'status' => 'success',
     			'token' => $temp_register->token,
     			'key' => bcrypt($temp_register->token),
-    			'path' => \Storage::url($path),
+    			'path' => $temp_register_file->id,
     			'submited' => \Carbon\Carbon::now()->format('Y-m-d')
     		];
     		return response()->json($response);
@@ -257,7 +257,7 @@ class TempRegisterController extends Controller
 	    	{
 	    		$response = [
 	    			'status' => 'success',
-	    			'path' => $temp_register_file->file,
+	    			'path' => $temp_register_file->id,
 	    			'size' => $temp_register_file->size,
 	    			'filename' => $temp_register_file->filename
 	    		];
@@ -276,6 +276,39 @@ class TempRegisterController extends Controller
     		];
     		return response()->json($response);
 		}
+    }
+
+    /**
+     * @method previewFile
+     * @param $r 
+     * @param $form_register
+     * @param $form_step 
+     * @return JSON
+     */
+    public function previewFile(Request $r,$url, TempRegisterFiles $temp_file, $token)
+    {
+        $form_register = FormRegister::where('url',$url)
+                                    ->where('is_active',1)
+                                    ->first();
+        if(!$form_register)
+        {
+           abort('404');
+        }
+        $temp_register = TempRegister::where('token',$token)
+                                    ->where('form_register',$form_register->id)
+                                    ->first();
+        if(!$temp_register)
+        {
+            abort('404');
+        }
+
+        if($temp_file->temp_register != $temp_register->id)
+        {
+            abort('404');
+        }
+
+        $path = \Storage::path($temp_file->file);
+        return response()->file($path);
     }
 
     /**
@@ -460,7 +493,7 @@ class TempRegisterController extends Controller
     											->first();
     	if($temp_register_file)
     	{
-    		return $temp_register_file->file;
+    		return $temp_register_file->id;
     	}else{
     		return null;
     	}
@@ -615,6 +648,61 @@ class TempRegisterController extends Controller
 			'data' => $data
 		];
 		return response()->json($response);
+    }
+
+    /**
+     * @method cancel
+     * @param $r
+     * @param $form_register
+     * @return JSON
+     */
+    public function cancel(Request $r,$url)
+    {
+        $form_register = FormRegister::where('url',$url)
+                                    ->where('is_active',1)
+                                    ->first();
+        if(!$form_register)
+        {
+            $response = [
+                'status' => 'error',
+                'message' => 'form not found'
+            ];
+            return response()->json($response);
+        }
+
+        $data = [
+            'token',
+            'key'
+        ];
+        if(!requireData($data,$r))
+        {
+            $response = [
+                'status' => 'success',
+                'data' => null
+            ];
+            return response()->json($response);
+        }
+
+        $temp_register = TempRegister::where('token',$r->token)
+                                    ->where('form_register',$form_register->id)
+                                    ->first();
+        if(!$temp_register)
+        {
+            $response = [
+                'status' => 'error',
+                'data' => 'form not found'
+            ];
+            return response()->json($response);
+        }
+
+        TempRegisterFiles::where('temp_register',$temp_register->id)->delete();
+        TempRegisterData::where('temp_register',$temp_register->id)->delete();
+        TempRegister::where('id',$temp_register->id)->delete();
+
+        $response = [
+            'status' => 'success'
+        ];
+        return response()->json($response);
     }
 
 }

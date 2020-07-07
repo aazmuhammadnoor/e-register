@@ -83,4 +83,7 @@
   'themify' => array(
     'normal' => $fontDir . '/58ed3d678cd30ef3c8caaf059451f8ec',
   ),
+  'roboto' => array(
+    'normal' => $fontDir . '\9e96d9e23ad102bc05be47680b365314',
+  ),
 ) ?>

@@ -94,12 +94,9 @@ class IdentitasController extends Controller
         }
         
         if($r->hasFile('bukti_pendaftaran')){
-            $logo_login = $r->file('bukti_pendaftaran');
-            /*if(file_exists($destinationPath."/".$logo_login->getClientOriginalName())){
-                unlink($destinationPath."/".$logo_login->getClientOriginalName());
-            }*/
-            $logo_login->move($destinationPath,$logo_login->getClientOriginalName());
-            $arr_update['bukti_pendaftaran'] = $logo_login->getClientOriginalName();
+            $template = $r->file('bukti_pendaftaran');
+            $filename = $template->storeAs('template',"bukti_pendaftaran.docx");
+            $arr_update['bukti_pendaftaran'] = $filename;
         }
 
         if($r->hasFile('surat_pernyataan')){
