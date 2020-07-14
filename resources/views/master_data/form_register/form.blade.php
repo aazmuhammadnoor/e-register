@@ -32,13 +32,13 @@
                             @endforeach
                         @endif
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label require">Nama Form Register</label>
+                            <label class="col-sm-2 col-form-label require">Nama Form Registrasi</label>
                             <div class="col-sm-4">
                                 {!! Form::text('form_name',$form_register->form_name,['class'=>'form-control form-control-sm','autocomplete'=>'off']) !!}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label require">Kode Register</label>
+                            <label class="col-sm-2 col-form-label require">Kode Registrasi (Prefix)</label>
                             <div class="col-sm-4">
                                 {!! Form::text('register_code',$form_register->register_code,['class'=>'form-control form-control-sm','autocomplete'=>'off']) !!}
                             </div>
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Template Register</label>
+                            <label class="col-sm-2 col-form-label">Template Bukti Registrasi</label>
                             <div class="col-sm-4">
                                 {{ Form::file('template_register') }}
                                 @if($form_register->template_register)
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Utama</label>
+                            <label class="col-sm-2 col-form-label">Tampilkan di Halaman Utama</label>
                             <div class="col-sm-10">
                                  {!! Form::radio('utama',1,($form_register->utama == 1) ? true : false) !!}
                                     Ya
