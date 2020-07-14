@@ -74,6 +74,9 @@
                           <a href="{{ route('mypage') }}"><i class="icon ti-arrow-left"></i> Kembali</a>
                           <div>
                             <a href="{{ route('register.download.bukti',[$form_register->url]) }}?email={{ $auth->email }}&key={{ bcrypt($auth->email) }}" class="current-color" target="_blank"><i class="icon ti-printer"></i> Cetak Bukti</a>
+                            @if($register->status == 'revisi')
+                              <a href="{{ route('mypage.register.edit',[$form_register->url,$register->id]) }}" class="p-2 text-white btn-warning" target="_blank"><i class="icon ti-pencil"></i> Revisi</a>
+                            @endif
                           </div>
                         </div>
                     </div>
@@ -85,6 +88,18 @@
                                   <h5>{{ $register->thisRegistant->email }}</h5>
                               </div>
                               <h5><i>{{ $register->updated_at->format('d F Y') }}</i></h5>
+                              @if($register->status == 'register')
+                                <label class="text-info text-uppercase p-1"><small><b>Sedang Diproses</b></small></label>
+                              @elseif($register->status == 'reject')
+                                <label class="text-danger text-uppercase p-1"><small><b>Registrasi Ditolak</b></small></label>
+                              @elseif($register->status == 'revisi')
+                                <label class="text-warning text-uppercase p-1"><small><b>Revisi</b></small></label>
+                              @elseif($register->status == 'aprove')
+                                <label class="text-primary text-uppercase p-1"><small><b>Registrasi Diterima</b></small></label>
+                              @endif
+                              @if($register->keterangan)
+                                <p class="p-2 bg-light">Catatan : <br> {{ $register->keterangan }}</p>
+                              @endif
                           </div>
                           @foreach ($register->thisFormRegister->hasStep as $step)
                               <div class="title">

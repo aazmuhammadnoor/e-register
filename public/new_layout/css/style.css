@@ -752,18 +752,30 @@ footer {
 }
 
 @media (min-width: 576px) {
-  .right-content {
+  .eregister-register-page:after {
+    content: "";
+  }
+  .eregister-register-page .right-content {
     padding-left: 20px !important;
     padding-right: 20px !important;
   }
 
-  .eregister-register-page:after {
-    content: "";
+  .eregister-homepage .right-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 }
 @media (min-width: 768px) {
-  .right-content {
+  .eregister-register-page:after {
+    content: "";
+  }
+  .eregister-register-page .right-content {
     padding-left: 350px !important;
+    padding-right: 40px !important;
+  }
+
+  .eregister-homepage .right-content {
+    padding-left: 40px !important;
     padding-right: 40px !important;
   }
 }

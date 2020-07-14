@@ -16,7 +16,7 @@
     <link href="{{ asset('new_layout/plugins/dropzone/dist/dropzone.css') }}" rel="stylesheet">
     @yield('css')
     <!-- Favicons -->
-    <link rel="icon" href="{{ asset('uploads/'.$identitas->logo_public) }}">
+    <link rel="icon" href="{{ public_path($identitas->logo_public) }}">
   </head>
   <body>
 
@@ -24,7 +24,7 @@
         <nav class="navbar fixed-top eregister-navbar">
           <div class="container">
               <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('uploads/'.$identitas->logo_public) }}" alt="{{ $identitas->instansi }}">
+                <img src="{{ \Storage::url($identitas->logo_public) }}" alt="{{ $identitas->instansi }}">
                 <div class="title">
                     <h5>{{ $identitas->instansi }}</h5>
                     <small>{{ $identitas->nama_aplikasi }}</small>
@@ -39,7 +39,7 @@
     @yield('content')
 
     <footer class="eregister-footer current-bg-color">
-        Copyright @2020 Picsi
+        {{ $identitas->footer }}
     </footer>
 
     {{-- modal for register intro --}}

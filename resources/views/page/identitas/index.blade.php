@@ -107,11 +107,14 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-6 file-group file-browser">
+                                                    {!! Form::label('bg_frontend','Background Halaman Depan 1920 × 1280 px',['class'=>'require']) !!}
+                                                    {!! Form::text('bg_frontend_value',$rs->bg_frontend,['class'=>'form-control file-value']) !!}
+                                                    {!! Form::file('bg_frontend') !!}
+                                                </div>
+                                                <div class="form-group col-6 file-group file-browser">
                                                     {!! Form::label('bukti_pendaftaran','Tempalte Word Bukti Pendaftaran',['class'=>'require']) !!}
                                                     {!! Form::text('bukti_pendaftaran_value',$rs->bukti_pendaftaran,['class'=>'form-control file-value']) !!}
                                                     {!! Form::file('bukti_pendaftaran') !!}
-                                                </div>
-                                                <div class="form-group col-6 file-group file-browser">
                                                 </div>
                                             </div> 
                                             <div class="row">

@@ -1014,9 +1014,54 @@ $(document).on('click','#button-final',function(e)
 	}
 });
 
+$(document).on('click','#button-revisi',function(e)
+{
+	let email = $('#email').val();
+	let aggree = $('#aggree').val();
+	let valid = true;
+	if(!$('#aggree').is(':checked')) {
+		finalAlert('Opps','Wajib Setuju');
+		valid = false;
+	}
+	if(email == '') {
+		finalAlert('Opps','Email Wajib Diisi');
+		valid = false;
+	}
+	if(valid)
+	{
+		$.ajax({
+			url : url_final(),
+			type : 'POST',
+		    headers : {
+	    		'X-CSRF-TOKEN': csrf_token
+	    	},
+			data : {
+				token : this_token(),
+		    	key : this_key(),
+		    	email : email,
+		    	aggree : aggree
+			},
+			beforeSend: function(e){
+				loadingPage();
+			},
+			error: function(xhr){
+				loadingPage();
+			},
+			success: function(xhr){
+				loadingPage();
+				if(xhr.status == 'error')
+				{
+					finalAlert(xhr.title,xhr.message);
+				}else{
+					window.location.href = viewFormRegister();
+				}
+			}
+		});
+	}
+});
+
 function formFinish(xhr)
 {
-	console.log(1);
 	if(xhr)
 	{
 		if(!xhr.url){ stepform(steps[0]); };

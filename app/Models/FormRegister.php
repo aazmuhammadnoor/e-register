@@ -12,4 +12,9 @@ class FormRegister extends Model
     {
     	return $this->hasMany('App\Models\FormStep','form_register','id');
     }
+
+    function hasRegister()
+    {
+    	return $this->hasMany('App\Models\Register','form_register','id');
+    }
 }

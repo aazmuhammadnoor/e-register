@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Permohonan;
-use App\Models\KategoriProfil;
-use App\Models\Tutorial;
+use App\Models\FormRegister;
 
 class HomeController extends Controller
 {
@@ -26,7 +24,8 @@ class HomeController extends Controller
      */
     public function index(Request $r)
     {   
-        return view('home');
+        $form_register = FormRegister::where('is_active',1)->get();
+        return view('dashboard',compact('form_register'));
     }
 
     function Lists($posisi) {

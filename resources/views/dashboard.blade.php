@@ -1,37 +1,54 @@
-<div class="col-12 col-lg-3">
-    <div class="card card-body text-success">
-        <div class="flexbox">
-            <span class="ti-id-badge text-success fs-40"></span>
-            <a href="{{ url('admin/inbox/total') }}"><span class="text-success fs-40">{{ $total_daftar }}</span></a>
-        </div>
-        <div class="text-right">
-            <a href="{{ url('admin/inbox/total') }}"><span class="text-success">Total Permohonan</span></a>
+@extends('layouts.app')
+@section('asside')
+    @include('layouts.asside.main')
+@endsection
+
+@section('topbar')
+    @include('layouts.topbar.login')
+@endsection
+
+@section('custom-style')
+    <style type="text/css">
+        .card{
+            position: relative;
+        }
+        .card .line{
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            height: calc(100% - 20px);
+            width: 5px;
+        }
+    </style>
+@endsection
+
+@section('content')
+<main>
+    <div class="main-content">
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li class="breadcrumb-item"><a href="{{ url('home') }}">Beranda</a></li>
+            <li class="breadcrumb-item active">Statistik</li>
+        </ol>
+        <div class="row">
+            @foreach ($form_register as $row)
+                <div class="col-12 col-lg-3">
+                    <div class="card card-body bg-white">
+                        <div class="line" style="background-color: {{ $row->color  }}"></div>
+                        <div class="flexbox">
+                            <span class="icon ti-clipboard fs-40" style="color: {{ $row->color  }}"></span>
+                            <a href="{{ url('admin/registrasi') }}?id={{ $row->id }}">
+                                <span class="fs-40" style="color: {{ $row->color  }}">
+                                    {{ count($row->hasRegister) }}
+                                </span>
+                            </a>
+                        </div>
+                        <div class="text-right">
+                            <a href="{{ url('admin/registrasi') }}?id={{ $row->id }}"><span class="color" style="color: {{ $row->color  }}">{{ $row->form_name }}</span></a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
-</div>
-<div class="col-12 col-lg-3">
-    <div class="card card-body text-info">
-        <div class="flexbox">
-            <span class="ti-user text-info fs-40"></span>
-            <a href="{{ url('admin/inbox/today') }}"><span class="text-info fs-40">{{ $total_daftar_hari_ini }}</span></a>
-        </div>
-        <div class="text-right">
-            <a href="{{ url('admin/inbox/today') }}"><span class="text-info">Total Permohonan Hari Ini</span></a>
-        </div>
-    </div>
-</div>
-@if($status)
-@foreach($status as $key=>$items)
-<div class="col-12 col-lg-3">
-    <div class="card card-body {{ $items->color }}">
-        <div class="flexbox">
-            <span class="{{ $items->icon }} {{ $items->color }} fs-40"></span>
-            <a href="{{ url('admin/inbox',[$items->posisi]) }}"><span class="{{ $items->color }} fs-40">{{ $items->total}}</span></a>
-        </div>
-        <div class="text-right">
-            <a href="{{ url('admin/inbox',[$items->posisi]) }}"><span class="{{ $items->color }}">{{ $items->keterangan }}</span></a>
-        </div>
-    </div>
-</div>
-@endforeach
-@endif
+</main>
+@endsection

@@ -2,7 +2,7 @@
 	<header class="sidebar-header bg-primary">
 		<span class="logo">
 			<a href="{{ url('/home') }}">
-				<img src="{{asset('uploads/'.$identitas->logo_backend.'') }}" alt="..." height="50px" />
+				<img src="{{ \Storage::url($identitas->logo_backend) }}" alt="..." height="50px" />
 			</a>
 		</span>
 	</header>
@@ -24,12 +24,6 @@
 				@include('layouts.asside.admin')
 			@endif
 			{!! menu() !!}
-			<li class="menu-item" id="menu-tutorial">
-				<a class="menu-link" href="{{ url('admin/tutorial') }}">
-					<span class="icon ti-help-alt"></span>
-					<span class="title">Bantuan / Tutorial</span>
-				</a>
-			</li>
 		</ul>
 	</nav>
 </aside>

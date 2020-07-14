@@ -11,6 +11,7 @@ use App\Models\RegisterFile;
 use App\Models\RegisterData;
 
 use PDF;
+use App\Jobs\SendRegisterNotification;
 
 class RegisterController extends Controller
 {
@@ -25,12 +26,12 @@ class RegisterController extends Controller
      * @method index
      * @return void
      */
-    public function index()
+    public function index(Request $r)
     {
     	$title = 'Register Lists';
     	$form_register = FormRegister::where('is_active',1)
     						->paginate(10);
-        return view('admin.register.index',compact('title','form_register'));
+        return view('admin.register.index',compact('title','form_register','r'));
     }
 
     /**
@@ -68,7 +69,8 @@ class RegisterController extends Controller
     		}
     	}
     	$register = $register->select('registant.*','register.*');
-    	$register = $register->orderBy('register.updated_at','desc');
+    	$register = $register->orderBy('register.read_at','asc')
+                            ->orderBy('register.updated_at','desc');
     	$register = $register->paginate(10);
     	return response()->json($register);
     }
@@ -101,6 +103,8 @@ class RegisterController extends Controller
             ];
             array_push($fields,$step_data);
         }
+        $register->read_at = date('Y-m-d h:i:s');
+        $register->save();
         return view('admin.register.detail',compact('title','register','fields'));
     }
 
@@ -204,5 +208,41 @@ class RegisterController extends Controller
                 }
             }
         }
+    }
+
+
+    /**
+     * @method status
+     * @param $r 
+     * @param $form_register
+     * @param $form_step 
+     * @return JSON
+     */
+    public function status(Request $r,Register $register)
+    {
+        $this->validate($r,[
+            'keterangan' => 'required',
+            'status' => 'required',
+        ]);
+
+        if($register->status != 'reject' && $register->status != 'aprove'){
+
+            $register->status = $r->status;
+            $register->keterangan = $r->keterangan;
+            $register->save();
+        }
+
+        if($register->status == 'aprove' || $register->status == 'reject')
+        {
+            
+           /* TempRegisterFiles::where('temp_register',$temp_register->id)->delete();
+            TempRegisterData::where('temp_register',$temp_register->id)->delete();
+            TempRegister::where('id',$temp_register->id)->delete();*/
+        }
+
+        $job = (new SendRegisterNotification($register));
+        dispatch($job);
+
+        return redirect()->route('admin.register.detail',[$register->id]);
     }
 }

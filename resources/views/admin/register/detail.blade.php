@@ -20,6 +20,7 @@
         .current-btn{
             background-color: {{  $register->thisFormRegister->color }} !important;
             border: none;
+            color: #FFF;
         }
         .title{
             display: flex;
@@ -93,7 +94,18 @@
     	<div class="row">
     		<div class="col-12">
     			<div class="card">
-    				<h4 class="card-title">{{ $title }}</h4>
+    				<h4 class="card-title">
+                        {{ $title }}
+                        @if($register->status == 'register')
+                            <label class="label bg-primary p-2">Register</label>
+                        @elseif($register->status == 'revisi')
+                            <label class="label bg-warning p-2">Revisi</label>
+                        @elseif($register->status == 'reject')
+                            <label class="label bg-danger p-2">Reject</label>
+                        @elseif($register->status == 'aprove')
+                            <label class="label bg-success p-2">Aprove</label>
+                        @endif 
+                    </h4>
     				<div class="card-body d-flex flex-row">
                         <div class="col-8 p-3 left-content" id="content">
                             <div class="register-info mb-5">
@@ -103,6 +115,9 @@
                                 </div>
                                 <h5><i>{{ $register->updated_at->format('d F Y') }}</i></h5>
                             </div>
+                            @if($register->keterangan)
+                              <p class="p-2 bg-light">Catatan : <br> {{ $register->keterangan }}</p>
+                            @endif
                             @foreach ($register->thisFormRegister->hasStep as $step)
                                 <div class="title">
                                     <h2>{{ $step->step_name }}</h2>
@@ -118,9 +133,30 @@
                             @endforeach
                         </div>
                         <div class="col-3 nav-form-register p-4">
-                            <button class="btn btn-danger current-btn" id="print">
+                            <button class="btn btn-default current-btn" id="print">
                                 <i class="icon ti-printer"></i> Print
                             </button>
+                            <div class="d-flex flex-row mt-4">
+                                @if($register->status == 'register')
+                                <button class="btn btn-success mx-1 btn-status" data-id="aprove" data-bg="btn-success">
+                                    <i class="icon ti-check"></i> Aprove
+                                </button>
+                                <button class="btn btn-warning mx-1 btn-status" data-id="revisi" data-bg="btn-warning">
+                                    <i class="icon ti-reload"></i> Revisi
+                                </button>
+                                <button class="btn btn-danger mx-1 btn-status" data-id="reject" data-bg="btn-danger">
+                                    <i class="icon ti-close"></i> Reject
+                                </button>
+                                @endif
+                            </div>
+                            <div class="d-flex flex-row mt-4" id="action" style="display: none !important">
+                                <form action="{{ route('admin.register.status',[$register->id]) }}" method="POST" class="form w-100">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="status" value="" id="status">
+                                    <textarea class="form-control" name="keterangan" id="keterangan" placeholder="Keterangan" required="">{{ $register->keterangan }}</textarea>
+                                    <button type="submit" class="btn float-right mt-4 text-uppercase" id="btn-action">Submit</button>
+                                </form>
+                            </div>
                         </div>
     				</div>
     			</div>
@@ -170,6 +206,17 @@
     $(document).on('click','#print',function(e)
     {
         $('#print-prepare').modal('show');
+    })
+
+    $(document).on('click','.btn-status',function(e)
+    {
+        let status = $(this).data('id');
+        let btn = $(this).data('bg');
+        $('#status').val(status);
+        $('#action').show();
+        $('#btn-action').text('Submit '+status);
+        $('#btn-action').removeClass('btn-success btn-danger btn-warning');
+        $('#btn-action').addClass(btn);
     })
 </script>
 @endsection

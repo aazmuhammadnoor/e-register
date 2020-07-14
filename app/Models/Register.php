@@ -18,8 +18,18 @@ class Register extends Model
     	return $this->belongsTo('App\Models\FormRegister','form_register','id');
     }
 
+    function thisTempRegister()
+    {
+        return $this->belongsTo('App\Models\TempRegister','temp_register','id');
+    }
+
     function hasRegisterData()
     {
     	return $this->hasMany('App\Models\RegisterData','register','id');
+    }
+
+    function hasRegisterFile()
+    {
+        return $this->hasMany('App\Models\RegisterFile','register','id');
     }
 }

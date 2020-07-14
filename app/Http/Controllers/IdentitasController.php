@@ -59,64 +59,39 @@ class IdentitasController extends Controller
 
         if($r->hasFile('logo_public')){
             $logo_public = $r->file('logo_public');
-            $logo_public->move($destinationPath,$logo_public->getClientOriginalName());
-            $arr_update['logo_public'] = $logo_public->getClientOriginalName();
+            $filename = \Storage::putFile('public/images',$logo_public);
+            $arr_update['logo_public'] = $filename;
         }
 
         if($r->hasFile('logo_backend')){
             $logo_backend = $r->file('logo_backend');
-            $logo_backend->move($destinationPath,$logo_backend->getClientOriginalName());
-            $arr_update['logo_backend'] = $logo_backend->getClientOriginalName();
+            $filename = \Storage::putFile('public/images',$logo_backend);
+            $arr_update['logo_backend'] = $filename;
         }
 
         if($r->hasFile('bg_login')){
             $bg_login = $r->file('bg_login');
-            $bg_login->move($destinationPath,$bg_login->getClientOriginalName());
-            $arr_update['bg_login'] = $bg_login->getClientOriginalName();
+            $filename = \Storage::putFile('public/images',$bg_login);
+            $arr_update['bg_login'] = $filename;
+        }
+
+        if($r->hasFile('bg_frontend')){
+            $bg_frontend = $r->file('bg_frontend');
+            $filename = \Storage::putFile('public/images',$bg_frontend);
+            $arr_update['bg_frontend'] = $filename;
         }
     	
     	if($r->hasFile('logo_login')){
             $logo_login = $r->file('logo_login');
-            $logo_login->move($destinationPath,$logo_login->getClientOriginalName());
-            $arr_update['logo_login'] = $logo_login->getClientOriginalName();
-        }
-        
-        if($r->hasFile('ttd_elektronik')){
-            $logo_login = $r->file('ttd_elektronik');
-            $logo_login->move($destinationPath,$logo_login->getClientOriginalName());
-            $arr_update['ttd_elektronik'] = $logo_login->getClientOriginalName();
-        }
-        
-        if($r->hasFile('kop_surat')){
-            $logo_login = $r->file('kop_surat');
-            $logo_login->move($destinationPath,$logo_login->getClientOriginalName());
-            $arr_update['kop_surat'] = $logo_login->getClientOriginalName();
+            $filename = \Storage::putFile('public/images',$logo_login);
+            $arr_update['logo_login'] = $filename;
         }
         
         if($r->hasFile('bukti_pendaftaran')){
             $template = $r->file('bukti_pendaftaran');
             $filename = $template->storeAs('template',"bukti_pendaftaran.docx");
             $arr_update['bukti_pendaftaran'] = $filename;
-        }
-
-        if($r->hasFile('surat_pernyataan')){
-            $logo_login = $r->file('surat_pernyataan');
-            /*if(file_exists($destinationPath."/".$logo_login->getClientOriginalName())){
-                unlink($destinationPath."/".$logo_login->getClientOriginalName());
-            }*/
-            $logo_login->move($destinationPath,$logo_login->getClientOriginalName());
-            $arr_update['surat_pernyataan'] = $logo_login->getClientOriginalName();
-        }
-
-        if($r->hasFile('surat_pencabutan')){
-            $logo_login = $r->file('surat_pencabutan');
-            /*if(file_exists($destinationPath."/".$logo_login->getClientOriginalName())){
-                unlink($destinationPath."/".$logo_login->getClientOriginalName());
-            }*/
-            $logo_login->move($destinationPath,$logo_login->getClientOriginalName());
-            $arr_update['surat_pencabutan'] = $logo_login->getClientOriginalName();
-        }
-    	
+        }    	
     	
     	$rs->update($arr_update);
 

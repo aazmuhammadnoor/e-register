@@ -87,6 +87,28 @@
 
     let current = 1;
 
+
+    $(document).ready(function(e)
+    {
+        @if($r->has('id'))
+            @php
+                $active_form = \App\Models\FormRegister::where("id",$r->id)->first();
+                if(!$active_form)
+                {
+                    $active_form = $form_register[0];
+                }
+            @endphp
+        @else
+            @php 
+                $active_form = $form_register[0];
+            @endphp
+        @endif
+        let id = {{ $active_form->id }};
+        let color = '{{ $active_form->color }}';
+        $('#form-register-'+id).addClass('active');
+        loadRegister(id,color);
+    })
+
     $(document).on('click','.btn-form, .detail-register',function(e)
     {
         let id = $(this).data('id');
@@ -148,6 +170,7 @@
                                                     <th class="text-center">Nomor Registrasi</th>
                                                     <th class="text-center">Email</th>
                                                     <th class="text-center">Tanggal</th>
+                                                    <th class="text-center">Status</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -180,6 +203,7 @@
                                         </td>
                                         <td>${i.email}</td>
                                         <td>${formatDate(i.updated_at)}</td>
+                                        <td class="text-uppercase">${i.status}</td>
                                         <td>
                                             <a href="${url_detail(i.id)}" target="_blank" class="btn btn-sm detail-register" style="background-color: ${color} !important" data-id="${form_register}" data-color="${color}">
                                                 <i class="icon ti-arrow-right"></i>

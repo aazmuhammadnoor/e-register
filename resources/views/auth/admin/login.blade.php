@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row no-gutters min-h-fullscreen bg-white">
-	<div class="col-md-6 col-lg-7 col-xl-8 d-none d-md-block bg-img" style="background-image: url({{ asset('uploads/'.$identitas->bg_login.'') }})" data-overlay="5">
+	<div class="col-md-6 col-lg-7 col-xl-8 d-none d-md-block bg-img" style="background-image: url({{ \Storage::url($identitas->bg_login) }})" data-overlay="5">
 
 		<div class="row h-100 pl-50">
 			<div class="col-md-10 col-lg-8 align-self-end">

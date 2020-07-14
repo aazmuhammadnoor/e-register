@@ -1,3 +1,9 @@
+<li class="menu-item {{ activeMenu('config.log') }}">
+	<a class="menu-link" href="{{ url('/') }}">
+		<span class="icon fa fa-dashboard"></span>
+		<span class="title">Dashboard</span>
+	</a>
+</li>
 <li class="menu-item {{ activeMenu('config') }}">
 	<a class="menu-link" href="#">
 		<span class="icon fa fa-cog"></span>

@@ -34,6 +34,15 @@
                               <div>
                                 <h3>{{ $row->thisFormRegister->form_name }}</h3>
                                 <h5 class="mt-3">{{ $row->register_number }}</h5>
+                                @if($row->status == 'register')
+                                  <label class="text-info text-uppercase p-1"><small><b>Sedang Diproses</b></small></label>
+                                @elseif($row->status == 'reject')
+                                  <label class="text-danger text-uppercase p-1"><small><b>Registrasi Ditolak</b></small></label>
+                                @elseif($row->status == 'revisi')
+                                  <label class="text-warning text-uppercase p-1"><small><b>Revisi</b></small></label>
+                                @elseif($row->status == 'aprove')
+                                  <label class="text-primary text-uppercase p-1"><small><b>Registrasi Diterima</b></small></label>
+                                @endif
                               </div>
                               <div class="nav">
                                 <i>{{ $row->updated_at->format('d F Y') }}</i>

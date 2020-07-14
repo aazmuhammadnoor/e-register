@@ -156,6 +156,7 @@ class RegisterController extends Controller
         $register->registant = $registant->id;
         $register->register_number = $this->newRegisterNumber($form_register);
         $register->form_register = $form_register->id;
+        $register->temp_register = $temp_register->id;
         $register->save();
 
         $temp_register_data = TempRegisterData::where('temp_register',$temp_register->id)
@@ -190,11 +191,8 @@ class RegisterController extends Controller
         }
 
         //delete temp data
-        TempRegisterFiles::where('temp_register',$temp_register->id)->delete();
-        TempRegisterData::where('temp_register',$temp_register->id)->delete();
-        TempRegister::where('id',$temp_register->id)->delete();
 
-        $this->createBukti($register);
+        //$this->createBukti($register);
 
         //send email registant
         $job = (new SendRegisterJob($register));
