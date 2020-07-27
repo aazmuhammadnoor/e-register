@@ -16,7 +16,7 @@
     <link href="{{ asset('new_layout/plugins/dropzone/dist/dropzone.css') }}" rel="stylesheet">
     @yield('css')
     <!-- Favicons -->
-    <link rel="icon" href="{{ public_path($identitas->logo_public) }}">
+    <link rel="icon" href="{{ \Storage::url($identitas->logo_public) }}">
   </head>
   <body>
 
@@ -39,7 +39,7 @@
     @yield('content')
 
     <footer class="eregister-footer current-bg-color">
-        {{ $identitas->footer }}
+        {{ $identitas->footer }} | &copy 2020 Picsi
     </footer>
 
     {{-- modal for register intro --}}

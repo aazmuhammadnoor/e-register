@@ -236,6 +236,7 @@ main{
 	min-height: inherit;
 	display: flex;
   	align-items: stretch;
+  	background-image: url("../../images/background_frontend.png");
   	.left-content{
   		padding: 0px;
   		max-height: calc(100vh - 75px);
@@ -868,4 +869,8 @@ footer{
 			color: #FFF;
 		}
 	}
+}
+
+.bg-eregister{
+	background-image: url("../../images/background_frontend.png")
 }
