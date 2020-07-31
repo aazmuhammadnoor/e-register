@@ -33,6 +33,7 @@ function addColumn(after=null)
 		                        <option value="file">Upload</option>
 		                        <option value="address">Alamat Administratif</option>
 		                        <option value="address_autocomplete">AutoComplete Alamat Administratif </option>
+		                        <option value="text" disabled class="disable-option">Map <i>(Coming Soon)</i></option>
 		                    </select>
 		                    <input type="text" name="options[]" class="form-control col-3 mx-2" placeholder="Pilihan Ex : Pria,Wanita" >
 		                    <select class="form-control col-2 mx-2" name="column_length[]" >
@@ -88,6 +89,7 @@ function loadMetadata(metadata)
 		                        <option ${(i.type == 'file') ? 'selected' : ''} value="file">Upload</option>
 		                        <option ${(i.type == 'address') ? 'selected' : ''} value="address">Alamat Administratif</option>
 		                        <option ${(i.type == 'address_autocomplete') ? 'selected' : ''} value="address_autocomplete">AutoComplete Alamat Administratif</option>
+		                        <option value="text" disabled class="disable-option">Map <i>(Coming Soon)</i></option>
 		                    </select>
 		                    <input type="text" name="options[]" class="form-control col-3 mx-2" placeholder="Pilihan Ex : Pria,Wanita" value="${i.options}">
 		                    <select class="form-control col-2 mx-2" name="column_length[]">

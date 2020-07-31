@@ -189,6 +189,10 @@
             background-color: {{ $form_register->color }} !important;
             color: #FFF;
         }
+        .disable-option{
+            background-color: #444444;
+            color: #FFF;
+        }
     </style>
 @endsection
 

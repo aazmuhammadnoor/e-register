@@ -23,6 +23,16 @@
 			<h4>Login</h4>
 			<form class="form-type-material" method="POST" action="{{ url()->current() }}">
             	{{ csrf_field() }}
+            	@if(isset($_GET['demo']))
+	            <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
+	              <input type="text" class="form-control" name="username" value="demo"/>
+	              <label for="username">Username</label>
+	            </div>
+	            <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
+	              <input type="password" class="form-control" id="password" name="password" value="demo">
+	              <label for="password">Password</label>
+	            </div>
+	            @else
 	            <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
 	              <input type="text" class="form-control" name="username" value="{{ old('username') }}"/>
 	              <label for="username">Username</label>
@@ -31,6 +41,7 @@
 	              <input type="password" class="form-control" id="password" name="password">
 	              <label for="password">Password</label>
 	            </div>
+	            @endif
 <!-- 	            <div class="form-group {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
 								@captcha
 								<input type="text" id="captcha" class="form-control" name="captcha">
